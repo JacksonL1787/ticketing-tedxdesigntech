@@ -1,0 +1,38 @@
+doctype html
+html
+  head
+    title Customer Information
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet" href="/css/customer-information.css")
+    link(rel="stylesheet" href="/css/main.css")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+    script.
+      var rawCustomerData = "#{customerData}"
+      if(rawCustomerData) {
+        window.customerData = JSON.parse(rawCustomerData.replace(/&quot;/g, '"'))
+      }
+  body
+    .top
+      button.go-back-btn Go Back
+      h1.page-title Customer Information
+    .content
+      .basic-info-form
+        h2.section-title Information
+        .form-wrap
+          .dual-input-wrap
+            input.first-name-inpt(type="text" placeholder="First Name")
+            input.last-name-inpt(type="text" placeholder="Last Name")
+          input.email-inpt(type="text" placeholder="Email")
+          input.phone-number-inpt(type="text" placeholder="Phone Number")
+          input.address-line-one-inpt(type="text" placeholder="Address Line 1")
+          input.address-line-two-inpt(type="text" placeholder="Address Line 2")
+          .dual-input-wrap
+            input.city-inpt(type="text" placeholder="City")
+            input.state-inpt(type="text" placeholder="State")
+          input.zip-code-inpt(type="text" placeholder="Zip Code")
+          .next-step.disabled
+            p Continue
+            .arrow
+              
+    
+    script(src="/js/customer-information.js")

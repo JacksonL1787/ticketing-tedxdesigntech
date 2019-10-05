@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    title Seat Information
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet" href="/css/seat-information.css")
+    link(rel="stylesheet" href="/css/main.css")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+    script.
+      var rawSeatData = "#{seatData}"
+      window.seatData = JSON.parse(rawSeatData.replace(/&quot;/g, '"'))
+  body
+    .top
+      button.go-back-btn Go Back
+      h1.page-title Seat Information
+    .form-content
+      .ga-tickets.tickets-wrap
+        .title-wrap
+          .seat
+          h2.section-title GA Seats
+        p.no-tickets No GA Seats
+        .inputs-wrap
+      .vip-tickets.tickets-wrap
+        .title-wrap
+          .seat
+            .icon
+          h2.section-title VIP Seats
+        p.no-tickets No VIP Seats
+        .inputs-wrap
+      .next-step.disabled
+        p Continue
+        .arrow
+        
+    
+    script(src="/js/seat-information.js")

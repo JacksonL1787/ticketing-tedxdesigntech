@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title Seat Information
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet" href="/css/seat-checkout.css")
+    link(rel="stylesheet" href="/css/main.css")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+    script.
+      var seatData = "#{setData}"
+      window.seatData = JSON.parse(rawSeatData.replace(/&quot;/g, '"'))
+  body
+    .your-cart-info
+      h2.section-title Cart Overview
+      .seats-wrap
+      .total-wrap
+        .charges
+          .flex-wrap.subtotal-wrap
+            p.title Subtotal
+            p.charge $100
+          .flex-wrap.fees-wrap
+            p.title Fees
+            p.charge $11.41
+          h2.total-price $111.41
+              
+    
+    script(src="/js/seat-checkout.js")

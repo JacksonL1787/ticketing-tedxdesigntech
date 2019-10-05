@@ -1,0 +1,62 @@
+doctype html
+html
+  head
+    title Seat Selection
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet" href="/css/seat-selection.css")
+    link(rel="stylesheet" href="/css/main.css")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+  body
+    script.
+      const rawData = "#{seatData}"
+      if(rawData) {
+        window.seatData = JSON.parse(rawData.replace(/&quot;/g, '"'))
+      }
+    .top
+      h1.page-title Seat Selection
+    .layout
+      .outer-seat-wrap
+        .legend
+          .taken-wrap.item-wrap
+            label Taken Seat
+            .seat
+              .icon
+          .ga-wrap.item-wrap
+            label GA Seat
+            .seat
+          .vip-wrap.item-wrap
+            label VIP Seat
+            .seat
+              .icon
+          .selected-wrap.item-wrap
+            label Selected Seat
+            .inner-seat-wrap
+              .seat
+              .seat
+                .icon
+        .stage
+          .fade
+          h2.title Stage
+        .seat-wrap
+    
+      .overview-wrap
+        .overview-content-wrap
+          h1.overview-title Overview
+          .ga-tickets-wrap.ticket-wrap
+            .tickets-title
+              .seat
+              p.number-of-tickets <span class="number">0</span> GA Seat(s) Selected
+          .vip-tickets-wrap.ticket-wrap
+            .tickets-title
+              .seat
+                .icon
+              p.number-of-tickets <span class="number">0</span> VIP Seat(s) Selected
+          .seats-wrap
+            h3.seats-title Seats
+            p.none-selected No Seats Selected
+        .purchase-wrap
+          p.total No Seats Selected
+          .next-step.disabled
+            p Continue
+            .arrow
+    script(src="/js/seat-selection.js")

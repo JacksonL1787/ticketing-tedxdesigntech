@@ -1,0 +1,130 @@
+.top
+  width 100%
+  height fit-content
+  margin-bottom 50px
+  .go-back-btn
+    position absolute
+    top 20px
+    left 20px
+    background red
+    border none
+    color white
+    padding 7px 20px
+    cursor pointer
+    font-weight 700
+    font-size 15px
+    border-radius .3em
+    transition background .3s
+    &:hover
+      background #de0000
+  .page-title
+    color lightgrey
+    text-align center
+    font-weight 500
+    letter-spacing 1px
+    margin 16px 0
+
+.content
+  width fit-content
+  margin 30px auto 0
+  height fit-content
+  position relative
+  display flex
+  .your-cart-info
+    width 400px
+    height fit-content
+    background #161a1d
+    border-radius .3em
+    box-shadow 0 5px 12px 5px rgba(0,0,0,0.1)
+    border 1px solid #32333e
+    .section-title
+      color white
+      color lightgrey
+      font-size 25px
+      text-align center
+      margin 15px 0
+    .total-wrap
+      height fit-content
+      padding 20px 0
+      width 100%
+      border-top 1px solid #32333e
+    .seats-wrap
+      width 90%
+      margin 20px auto 0
+      position relative
+      .seat-wrap
+        display flex
+        justify-content left
+        position relative
+        height fit-content
+        width 90%
+        margin 0 auto
+        padding 15px 0
+        margin-bottom 10px
+        .seat
+          width 27.5px
+          height 27.5px
+          border-radius .2em
+          position relative
+          background red
+          margin-right 15px
+          margin-top 5px
+          .icon
+            width 15px
+            height 15px
+            position absolute
+            top 50%
+            left 50%
+            transform translate(-50%, -50%)
+            background-image url('/img/star.svg')
+            background-size cover
+            background-position top
+            background-repeat no-repeat
+        .seat-info
+          .seat-number
+            color white
+            margin 0
+            font-weight 600
+            font-size 16px
+            margin-bottom 5px
+          .seat-status
+            color lightgrey
+            margin 0 0 5px
+            font-size 15px
+            font-weight 100
+          .seat-name
+            color grey
+            margin 0
+            font-size 13px
+        .seat-price
+          position absolute
+          right 0
+          margin 0
+          color lightgrey
+          font-weight 900
+          top 50%
+          transform translateY(-50%)
+    .total-wrap
+      width 90%
+      margin-left 5%
+      .charges
+        width 90%
+        margin-left 5%
+        .flex-wrap
+          display flex
+          justify-content space-between
+          margin-bottom 15px
+          p
+            margin 0
+          p.title
+            font-size 16px
+            color lightgrey
+            font-weight bold
+          p.charge
+            font-size 16px
+            color lightgrey
+        h2.total-price
+          color white
+          text-align center
+          font-weight 900
+          margin 20px 0 0
