@@ -1,0 +1,89 @@
+.nav-wrap
+  width 300px
+  height 100vh
+  display flex
+  justify-content center
+  position fixed
+  z-index 10
+  background linear-gradient(#232c31,#161a1d)
+  box-shadow 0 0 12px 5px rgba(0,0,0,0.1)
+  .content-wrap
+    width 80%
+    margin 40px auto 0
+    .title-wrap
+      width fit-content
+      height fit-content
+      margin 0 auto
+      .bar-chart-icon
+        width 22px
+        height 22px
+        background-image url('/img/dashboard/bar-chart.svg')
+        background-position center
+        background-size cover
+        background-repeat no-repeat
+        margin 5px auto 15px
+      p.title
+        margin 0
+        color white
+        font-weight 700
+        font-size 12px
+        text-transform uppercase
+        letter-spacing 1.5px
+    .user-info
+      width 100%
+      display flex
+      justify-content left
+      margin 60px 0 50px 7px
+      padding 10px 0
+      .profile-picture
+        width 30px
+        height 30px
+        background-image url('/img/dashboard/user-icon.svg')
+        background-size cover
+        background-position center
+        background-repeat no-repeat
+        margin-right 15px
+        margin-top 0.5px
+      .text-wrap
+        h2.name
+          font-size 15px
+          color white
+          margin 0
+        p.position
+          color grey
+          font-size 13px
+          margin 0
+    .nav-items-wrap
+      width fit-content
+      height fit-content
+      .nav-item
+        display flex
+        justify-content left
+        margin 50px 0
+        width fit-content
+        height fit-content
+        padding 7px 10px
+        cursor pointer
+        &:hover,
+        &.active
+          .icon,
+          p
+            opacity 1
+            opacity 1
+        .icon
+          width 20px
+          height 20px
+          opacity 0.4
+          background-image url('/img/dashboard/dashboard-icon.svg')
+          background-position center
+          background-size cover
+          background-repeat no-repeat
+          margin-right 20px
+          transition opacity .3s
+        p
+          color white
+          opacity 0.4
+          margin 1.5px 0 0
+          font-weight 600
+          font-size 14px
+          transition opacity .3s

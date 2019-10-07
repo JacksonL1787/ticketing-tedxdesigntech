@@ -1,4 +1,4 @@
-
+const seats = require('../seats')
 
 module.exports = {
   seatSelection: (req,res) => {
@@ -9,7 +9,7 @@ module.exports = {
       const data = {
         seats: orderData[0].seats
       }
-      res.render('seat-selection', {seatData: JSON.stringify(data)})
+      res.render('seat-selection', {seatPrices: JSON.stringify(await seats.getPrices(req)), seatData: JSON.stringify(data), takenSeats: JSON.stringify(await seats.takenSeats(req))})
     }
     render()
   },
@@ -31,10 +31,7 @@ module.exports = {
       let orderID = req.session.order.orderID
       var orderData = await db.collection('processingOrders').find({"orderID": orderID}).toArray()
       if(orderData[0].status.stepTwo) {
-        const data = {
-          customerInfo: orderData[0].customerInfo
-        }
-        res.render('customer-information', {customerData: JSON.stringify(data)})
+        res.render('customer-information', {customerData: JSON.stringify(orderData[0].customerInformation)})
       } else {
         res.redirect('/seats/information')
       }
@@ -51,7 +48,7 @@ module.exports = {
         const data = {
           seats: orderData[0].seats
         }
-        res.render('seat-checkout', {seatData: JSON.stringify(data)})
+        res.render('seat-checkout', {seatPrices: JSON.stringify(await seats.getPrices(req)), seatData: JSON.stringify(data)})
       } else {
         res.redirect('/customer/information')
       }

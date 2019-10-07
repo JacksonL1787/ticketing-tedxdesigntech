@@ -8,10 +8,17 @@ html
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
   body
     script.
-      const rawData = "#{seatData}"
-      if(rawData) {
-        window.seatData = JSON.parse(rawData.replace(/&quot;/g, '"'))
+      const rawSeatData = "#{seatData}"
+      const rawTakenSeats = "#{takenSeats}"
+      const rawSeatPrices = "#{seatPrices}"
+      window.seatPrices = JSON.parse(rawSeatPrices.replace(/&quot;/g, '"'))
+      if(rawSeatData) {
+        window.seatData = JSON.parse(rawSeatData.replace(/&quot;/g, '"'))
       }
+      if(rawTakenSeats) {
+        window.takenSeats = JSON.parse(rawTakenSeats.replace(/&quot;/g, '"'))
+      }
+      
     .top
       h1.page-title Seat Selection
     .layout
@@ -55,6 +62,7 @@ html
             h3.seats-title Seats
             p.none-selected No Seats Selected
         .purchase-wrap
+          p.seat-info Note: You haven't secured your seats until you check them out.
           p.total No Seats Selected
           .next-step.disabled
             p Continue

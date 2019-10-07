@@ -1,0 +1,23 @@
+script.
+	let rawOrders = "#{orders}"
+	window.orders = JSON.parse(rawOrders.replace(/&quot;/g, '"'))
+	
+.search-wrap
+	.search-bar-wrap
+		.search-icon-wrap
+			.icon
+		input.search-bar(type="text" placeholder="Search")
+	.filter-bar
+		.filter-option.today-filter
+			p Today
+		.filter-option.week-filter
+			p Week
+		.filter-option.month-filter
+			p Month
+		.filter-option.all-filter.active
+			p All
+
+h2.no-orders No Orders
+.orders-wrap
+	
+				

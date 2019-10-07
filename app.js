@@ -9,7 +9,8 @@ var bodyParser = require('body-parser')
 
 const port = 3000
 
-var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/seats/index');
+var adminRouter = require('./routes/admin/index');
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.use(session({
 }))
 
 app.use('/', indexRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

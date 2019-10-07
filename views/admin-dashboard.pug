@@ -1,0 +1,36 @@
+doctype html
+html
+	head
+		title #{title}
+		meta(name="viewport" content="width=device-width, initial-scale=1.0")
+		link(rel="stylesheet" href="/css/main.css")
+		link(rel="stylesheet" href="/css/nav.css")
+		link(rel="stylesheet" href="/css/dashboard-main.css")
+		script(src="https://momentjs.com/downloads/moment.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+	body
+		.dashboard-layout
+			include dashboard-components/nav
+			.dashboard-main
+				.dashboard-content
+					h1.page-title #{page}
+					case page
+						when 'Dashboard'
+							link(rel='stylesheet', href="/css/dashboard.css")
+							include dashboard-components/dashboard
+							script(src="/js/dashboard.js")
+						when 'Create Ticket'
+							link(rel='stylesheet', href="/css/create-ticket.css")
+							include dashboard-components/create-ticket
+							script(src="/js/create-ticket.js")
+						when 'Ticket Orders'
+							link(rel='stylesheet', href="/css/ticket-orders.css")
+							include dashboard-components/ticket-orders
+							script(src="/js/ticket-orders.js")
+						when 'Revenue'
+							link(rel='stylesheet', href="/css/revenue.css")
+							include dashboard-components/revenue
+							script(src="/js/revenue.js")
+		
+		script(src="/js/dashboard-main.js")
+		script(src="/js/nav.js")

@@ -1,0 +1,91 @@
+script.
+  let rawOrders = "#{orders}"
+  let rawPrices = "#{prices}"
+  window.orders = JSON.parse(rawOrders.replace(/&quot;/g, '"'))
+  window.seatPrices = JSON.parse(rawPrices.replace(/&quot;/g, '"'))
+
+.dashboard-lower-content
+  .flex-wrap-seat-data
+    .ga-seats-sold-widget
+      p.widget-title GA Seats Sold
+      svg.gauge
+        circle.g1(cx="110" cy="110" r="100" stroke="rgba(255,255,255,0.12)" stroke-width="5" fill="transparent") 
+        circle.g2(cx="110" cy="110" r="100" stroke="red" stroke-width="5.5" fill="transparent") 
+        circle.marker.marker-background(cx="110" cy="11" r="11" fill="rgba(255,0,0,0.4)")
+        circle.marker(cx="110" cy="11" r="9" fill="red")
+      .info-wrap
+        .text-wrap
+          label Seats Sold
+          p.seats-sold 
+        .text-wrap
+          label Seats Left
+          p.seats-left 
+
+    .vip-seats-sold-widget
+      p.widget-title VIP Seats Sold
+      svg.gauge
+        circle.g1(cx="110" cy="110" r="100" stroke="rgba(255,255,255,0.12)" stroke-width="5" fill="transparent") 
+        circle.g2(cx="110" cy="110" r="100" stroke="red" stroke-width="5.5" fill="transparent") 
+        circle.marker.marker-background(cx="110" cy="11" r="11" fill="rgba(255,0,0,0.4)")
+        circle.marker(cx="110" cy="11" r="9" fill="red")
+      .info-wrap
+        .text-wrap
+          label Seats Sold
+          p.seats-sold 
+        .text-wrap
+          label Seats Left
+          p.seats-left 
+    .info-widgets
+      .ga-revenue-widget.info-widget
+        .text-wrap
+          h2.info 
+          p.desc GA Seats Revenue (Not Including Fees)
+      .vip-revenue-widget.info-widget
+        .text-wrap
+          h2.info 
+          p.desc VIP Seats Revenue (Not Including Fees)
+      .number-of-orders-widget.info-widget
+        .text-wrap
+          h2.info 
+          p.desc Total Orders
+      .this-weeks-earnings-widget.info-widget
+        .text-wrap
+          h2.info 
+          p.desc This Week's Revenue (Including Fees)
+
+  .recent-orders
+    h2.widget-title Recent Orders
+    .table-wrap
+      table
+        thead
+          tr
+            th.customer-head Customer
+            th.date-head Date
+            th.price-head Price
+            th.seats-head Seats
+            th.action-head Action
+        tbody
+
+  .seat-prices-widget
+    h2.widget-title Prices
+    p.widget-overview Adjust the prices of seats and fees.
+    .price-wrap.ga-seat-price
+      p.desc GA Seats
+      .input-wrap
+        button.minus-btn -
+        input.price-inpt(type="number" onkeypress="return event.charCode >= 46 && event.charCode <= 57")
+        button.add-btn +
+    .price-wrap.vip-seat-price
+      p.desc VIP Seats
+      .input-wrap
+        button.minus-btn -
+        input.price-inpt(type="number" onkeypress="return event.charCode >= 46 && event.charCode <= 57")
+        button.add-btn +
+    .price-wrap.fees-price
+      p.desc Seat Fees
+      .input-wrap
+        button.minus-btn -
+        input.price-inpt(type="number" onkeypress="return event.charCode >= 46 && event.charCode <= 57")
+        button.add-btn +
+    button.update-prices Update Prices
+        

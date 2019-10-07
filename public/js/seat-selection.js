@@ -5,8 +5,10 @@ let overview = {
 
 let rows = 12
 let seatsPerRow = 30
-let vipRows = [1,2,3]
+let vipRows = ['A','B','C']
 let rowNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
+
+
 
 const createSeats = () => {
   for(var i = 1; i <= rows;i++) {
@@ -15,7 +17,7 @@ const createSeats = () => {
     let column2 = []
     for(var a = 1; a <= seatsPerRow;a++) {
       let classes = 'seat available'
-      if (vipRows.includes(i)) {
+      if (vipRows.includes(rowNames[i - 1])) {
         classes = classes + ' vip-seat'
       }
       if(a > seatsPerRow/2) {
@@ -24,9 +26,15 @@ const createSeats = () => {
         column1.push(`<div class="${classes}" data-seat="${a}${rowNames[i - 1]}"><div class="icon"></div></div>`)
       }
     }
-    console.log(column1)
-    console.log(column2)
     $('.seat-wrap').append(`<div class="row row${i}"><div class="column1 column">${column1.join("")}</div><p class="row-letter">${rowNames[i - 1]}</p><div class="column2 column">${column2.join("")}</div></div>`)
+  }
+}
+
+const markTakenSeats = () => {
+  if(window.takenSeats) {
+    window.takenSeats.forEach(function(item) {
+      $(`.seat-wrap .seat[data-seat="${item}"]`).addClass('taken').removeClass('available')
+    })
   }
 }
 
@@ -62,13 +70,13 @@ const selectSeat = (seat) => {
   if(seat.hasClass('vip-seat')) {
     number = parseInt($('.vip-tickets-wrap .number-of-tickets .number').text()) + 1
     $('.vip-tickets-wrap .number-of-tickets .number').text(number)
-    setPrice(50)
-    addSeatInfo(seat.attr('data-seat'), 50)
+    setPrice(window.seatPrices.vipSeats)
+    addSeatInfo(seat.attr('data-seat'), window.seatPrices.vipSeats)
   } else {
     number = parseInt($('.ga-tickets-wrap .number-of-tickets .number').text()) + 1
     $('.ga-tickets-wrap .number-of-tickets .number').text(number)
-    setPrice(30)
-    addSeatInfo(seat.attr('data-seat'), 30)
+    setPrice(window.seatPrices.gaSeats)
+    addSeatInfo(seat.attr('data-seat'), window.seatPrices.gaSeats)
   }
 
 }
@@ -83,24 +91,23 @@ const removeSeat = (seat) => {
   if(seat.hasClass('vip-seat')) {
     number = parseInt($('.vip-tickets-wrap .number-of-tickets .number').text()) - 1
     $('.vip-tickets-wrap .number-of-tickets .number').text(number)
-    setPrice(-50)
+    setPrice(-window.seatPrices.vipSeats)
   } else {
     number = parseInt($('.ga-tickets-wrap .number-of-tickets .number').text()) - 1
     $('.ga-tickets-wrap .number-of-tickets .number').text(number)
-    setPrice(-30)
+    setPrice(-window.seatPrices.gaSeats)
   }
 }
 
 const selectCurrentSeats = () => {
   if(window.seatData) {
-    window.seatData.seats.forEach(function(element) {
+    window.seatData.seats.forEach(function(item) {
       let newDiv = document.createElement('div')
-      newDiv.setAttribute('data-seat', element.seat)
-      console.log(rowNames.indexOf(element.seat[element.seat.length - 1]))
-      if(vipRows.includes(rowNames.indexOf(element.seat[element.seat.length - 1]) + 1)) {
+      newDiv.setAttribute('data-seat', item.seat)
+      if(vipRows.includes(item.seat[item.seat.length - 1])) {
         newDiv.setAttribute('class', 'vip-seat')
       }
-      $(`.seat-wrap .seat[data-seat="${element.seat}"]`).addClass('selected')
+      $(`.seat-wrap .seat[data-seat="${item.seat}"]`).addClass('selected')
       selectSeat($(newDiv))
     })
   }
@@ -121,6 +128,7 @@ $(document).on('click', '.seat', function() {
 $(document).ready(function() {
   createSeats()
   selectCurrentSeats()
+  markTakenSeats()
 })
 
 $('.next-step').click(function() {
