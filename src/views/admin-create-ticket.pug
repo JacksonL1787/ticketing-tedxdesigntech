@@ -1,0 +1,96 @@
+doctype html
+html
+  head
+    title Seat Selection
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet" href="/css/admin-create-ticket.css")
+    link(rel="stylesheet" href="/css/main.css")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+  body
+    script.
+      const rawTakenSeats = "#{takenSeats}"
+      if(rawTakenSeats) {
+        window.takenSeats = JSON.parse(rawTakenSeats.replace(/&quot;/g, '"'))
+      }
+    .module1
+      .top
+        h1.page-title Seat Selection
+      .layout
+        .outer-seat-wrap
+          .legend
+            .taken-wrap.item-wrap
+              label Taken Seat
+              .seat
+                .icon
+            .ga-wrap.item-wrap
+              label GA Seat
+              .seat
+            .vip-wrap.item-wrap
+              label VIP Seat
+              .seat
+                .icon
+            .selected-wrap.item-wrap
+              label Selected Seat
+              .inner-seat-wrap
+                .seat
+                .seat
+                  .icon
+          .stage
+            .fade
+            h2.title Stage
+          .seat-wrap
+          .next-step.disabled
+            p Continue
+            .arrow
+    .module2.hidden
+      .top
+        button.go-back-btn Go Back
+        h1.page-title Seat Information
+      .form-content
+        p.form-info Please specify, by first and last name, who will be sitting in each seat.
+        .ga-tickets.tickets-wrap
+          .title-wrap
+            .seat
+            h2.section-title GA Seats
+          p.no-tickets No GA Seats
+          .inputs-wrap
+        .vip-tickets.tickets-wrap
+          .title-wrap
+            .seat
+              .icon
+            h2.section-title VIP Seats
+          p.no-tickets No VIP Seats
+          .inputs-wrap
+        .next-step.disabled
+          p Continue
+          .arrow
+    .module3.hidden
+      .top
+        button.go-back-btn Go Back
+        h1.page-title Customer Information
+      .content
+        .basic-info-form
+          h2.section-title Information
+          p.section-info This information will be used to send the customer their tickets for the day of the event.
+          .form-wrap
+            .dual-input-wrap
+              input.first-name-inpt(type="text" placeholder="First Name")
+              input.last-name-inpt(type="text" placeholder="Last Name")
+            input.email-inpt(type="text" placeholder="Email")
+            input.phone-number-inpt(type="text" placeholder="Phone Number")
+            input.address-line-one-inpt(type="text" placeholder="Address Line 1")
+            input.address-line-two-inpt(type="text" placeholder="Address Line 2")
+            .dual-input-wrap
+              input.city-inpt(type="text" placeholder="City")
+              input.state-inpt(type="text" placeholder="State")
+            input.zip-code-inpt(type="text" placeholder="Zip Code")
+            button.finish-order-btn.disabled Finish Order
+    
+    .order-complete-page.hidden
+      .content
+        .checkmark-wrap
+          .icon
+        h1.title  Order Complete!
+        p.info Thank you, your order has been processed successfully. Information regarding your order has been sent to you via email. See you at our TEDx Event!
+      p.notify-redirect This page will automatically close in <span class="count">15</span> seconds.
+    script(src="/js/admin-create-ticket.js")

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "watchDev": "NODE_ENV=development gulp static && gulp watch",
+    "watch": "gulp static && gulp watch"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -11,10 +12,21 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-session": "^1.16.2",
+    "gulp": "^4.0.2",
     "http-errors": "~1.6.3",
     "mongoose": "^5.7.3",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11",
     "randomstring": "^1.1.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "babel-preset-minify": "^0.5.1",
+    "del": "^5.1.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-nodemon": "^2.4.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-stylus": "^2.7.0"
   }
 }

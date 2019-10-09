@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ab668723-1d63-457b-889b-242c44053b06" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/www" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/create-ticket.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/create-ticket.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/customer-information.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/customer-information.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/dashboard-main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/dashboard-main.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/dashboard.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/dashboard.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/main.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/nav.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/nav.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/order-complete.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/order-complete.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/revenue.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/revenue.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/seat-checkout.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/seat-checkout.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/seat-information.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/seat-information.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/seat-selection.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/seat-selection.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/ticket-orders.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/ticket-orders.styl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/checkmark.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/close.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/dashboard/add-icon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/dashboard/bar-chart.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/dashboard/dashboard-icon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/dashboard/eye-icon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/dashboard/purchases-icon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/dashboard/revenue-icon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/dashboard/search-icon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/dashboard/user-icon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/noun_Check_1785336.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/right-arrow.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/star.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/up-arrow.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/create-ticket.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/customer-information.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/dashboard-main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/dashboard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/nav.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/order-complete.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/revenue.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/seat-checkout.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/seat-information.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/seat-selection.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/ticket-orders.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/admin/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/admin/render.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/admin/updateDB.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/auth.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/seats.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/seats/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/seats/render.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/seats/updateDB.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/admin-dashboard.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/admin-dashboard.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/customer-information.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/customer-information.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/dashboard-components/create-ticket.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard-components/create-ticket.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/dashboard-components/dashboard.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard-components/dashboard.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/dashboard-components/nav.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard-components/nav.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/dashboard-components/revenue.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard-components/revenue.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/dashboard-components/ticket-orders.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard-components/ticket-orders.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/error.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/error.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/index.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/index.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/order-complete.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/order-complete.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/seat-checkout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/seat-checkout.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/seat-information.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/seat-information.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/seat-selection.pug" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/seat-selection.pug" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1Rw1QABdZTrbSmly7RHWkMhhRcG" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ab668723-1d63-457b-889b-242c44053b06" name="Default Changelist" comment="" />
+      <created>1570563325022</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1570563325022</updated>
+      <workItem from="1570563326217" duration="3269000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
