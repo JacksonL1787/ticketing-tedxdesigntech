@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/seats/selection', async function(req, res, next) {
   res.render('seat-selection', {seatPrices: JSON.stringify(await getSeatPrices()), takenSeats: JSON.stringify(await getTakenSeats())});
-  res.cookie('session_string', sessionString, {maxAge: 900000 /* 15 Minutes */})
+  res.cookie('session_string', sessionString)
   res.send(200)
 });
 
