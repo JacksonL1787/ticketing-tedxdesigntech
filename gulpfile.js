@@ -43,7 +43,7 @@ gulp.task('watch', (done) => {
     gulp.watch(['./src/static/**/*.*'], gulp.series(['static']));
     nodemon({
         script: './src/app.js',
-        watch: ['./src/routes/*.js', './src/app.js'],
+        watch: ['./src/routes/**/*.js', './src/app.js', './src/db/**/*.js'],
         env: process.env,
         done
     })

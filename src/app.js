@@ -54,7 +54,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-mongoose.connect('mongodb://host.docker.internal/ticketing', {
+mongoose.connect('mongodb://localhost/ticketing', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err, client) => {

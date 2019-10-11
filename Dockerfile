@@ -5,6 +5,6 @@ COPY . /app
 WORKDIR /app
 RUN npm i
 
-EXPOSE 3000 27017
+EXPOSE 3000
 CMD npm run watch
 #Comments

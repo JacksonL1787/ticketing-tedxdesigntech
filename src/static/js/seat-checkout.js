@@ -24,7 +24,6 @@ const addCartItems = () => {
     price.total = price.subTotal + price.fees
     $('.your-cart-info .seats-wrap').append(`<div class="seat-wrap" data-seat="${tempData.seat}"><div class="seat">${vipIcon}</div><div class="seat-info"><p class="seat-number">Seat ${tempData.seat} - <span class="seat-status">${tempData.seatStatus}</span></p><p class="seat-name">${tempData.name}</p></div><p class="seat-price">$${tempData.price}</p></div>`)
   })
-  console.log(price)
 }
 
 const setPrice = () => {

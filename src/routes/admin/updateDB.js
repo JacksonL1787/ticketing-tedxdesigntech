@@ -20,7 +20,7 @@ module.exports = {
         total: 0
       },
       notes: [
-        "This order was created by an administrator"
+        "This order was created by an administrator."
       ]
     }
     db.collection('orders').insertOne(orderData)

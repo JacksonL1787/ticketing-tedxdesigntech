@@ -1,0 +1,399 @@
+.info-flex-wrap
+  margin-top 40px
+
+.flex-wrap
+  display flex
+  justify-content center
+  margin-bottom 15px
+
+.notes-info-widget,
+.previous-changes-widget
+  max-height 400px
+  padding 20px 0
+  width 915px
+  border-radius .3em
+  background #161a1d
+  overflow-y auto
+  overflow-x hidden
+  margin 0 auto 15px
+  .widget-title
+    color lightgrey
+    font-size 25px
+    text-align center
+    margin 0
+
+
+.customer-info-widget,
+.seat-info-widget,
+.cart-info-widget,
+.payment-info-widget
+  width 450px
+  border-radius .3em
+  background #161a1d
+  padding 20px 0
+  overflow-y auto
+  overflow-x hidden
+  .widget-title
+    color lightgrey
+    font-size 25px
+    text-align center
+    margin 0
+
+.cart-info-widget,
+.payment-info-widget
+  height 500px
+
+.customer-info-widget,
+.seat-info-widget
+  height 520px
+
+.customer-info-widget
+  margin-right 15px
+  .inputs-wrap
+    width 90%
+    margin 30px auto 0
+    .input-flex-wrap
+      display flex
+      justify-content center
+      margin-bottom 15px
+      &.address-flex-wrap
+        .input-wrap
+          margin-right 10px !important
+        .input-wrap:last-child
+          margin-right 0 !important
+      .input-wrap:first-child
+        margin-right 10px !important
+      .input-wrap
+        margin-bottom 0 !important
+        input
+          width calc(100% - 30px) !important
+    .input-wrap
+      margin-bottom 15px
+      width 100%
+      label
+        display block
+        color grey
+        font-size 14px
+        margin-bottom 3px
+        margin-left 3px
+        text-align left !important
+      input
+        background rgba(0,0,0,0.12)
+        border 1px solid #23242b
+        padding 10px 15px
+        color white
+        font-size 15px
+        border-radius .3em
+        width calc(100% - 30px)
+
+.seat-info-widget
+  .divider
+    background #32333e
+    height 1px
+    width 90%
+    margin 20px auto
+  .ga-seats
+    margin-top 40px !important
+  .seats-wrap
+    width 90%
+    margin 30px auto 0
+    .title-wrap
+      display flex
+      justify-content center
+      .seat
+        width 30px
+        height 30px
+        border-radius .2em
+        position relative
+        background red
+        margin-right 10px
+        .icon
+          width 15px
+          height 15px
+          position absolute
+          top 50%
+          left 50%
+          transform translate(-50%, -50%)
+          background-image url('/img/star.svg')
+          background-size cover
+          background-position top
+          background-repeat no-repeat
+      h3
+        color lightgrey
+        text-align center
+        font-size 20px
+        margin 2.5px 0 0
+    p.no-seats
+      color grey
+      text-align center
+      margin 25px 0 10px
+      display none
+    .inputs-wrap
+      width 95%
+      margin 30px auto 0
+      .seat-input-wrap
+        display flex
+        justify-content center
+        width 100%
+        position relative
+        margin-bottom 20px
+        .seat-number-wrap
+          width 75px
+          position relative
+          background rgba(255,255,255,0.01)
+          height 45px
+          border 1px solid #23242b
+          border-right none
+          border-top-left-radius .3em
+          border-bottom-left-radius .3em
+          .seat-number
+            color white
+            font-weight 900
+            position absolute
+            margin 0
+            top 50%
+            left 50%
+            transform translate(-50%, -50%)
+        .seat-name-inpt
+          background rgba(0,0,0,0.1)
+          padding 0 10px
+          height 45px
+          width calc(100% - 75px - 20px)
+          border-top-right-radius .3em
+          border-bottom-right-radius .3em
+          border none
+          outline none
+          color white
+          font-size 16px
+          border 1px solid #23242b
+          border-left none
+
+.update-info-widget
+  width 915px
+  height fit-content
+  padding 40px 0
+  margin 15px auto
+  border-radius .3em
+  background #161a1d
+  .send-email-wrap
+    display flex
+    justify-content center
+    margin-bottom 10px
+    opacity 1
+    visibility visible
+    transition opacity .3s, visibility .3s
+    &.hidden
+      opacity 0
+      visibility hidden
+    .checkbox
+      background lightgrey
+      width 25px
+      height 25px
+      position relative
+      cursor pointer
+      margin-right 7px
+      border-radius .2em
+      &:hover
+        background grey
+      &.checked
+        background red
+        &:hover
+          background #c20007
+        .icon
+          display block
+      .icon
+        background-image url('/img/checkmark.svg')
+        background-size cover
+        background-position center
+        background-repeat no-repeat
+        position absolute
+        top calc(50% + 1.5px)
+        left 50%
+        transform translate(-50%, -50%)
+        width 18px
+        height 23px
+        display none
+    p
+      color lightgrey
+      margin 3px 0 0
+      font-size 14px
+  .update-info-btn
+    background red
+    padding 10px 25px
+    border-radius 10000px
+    border none
+    color white
+    font-size 14px
+    font-weight 700
+    letter-spacing 0.2px
+    display block
+    cursor pointer
+    margin 5px auto 0
+    transition background .3s
+    &.disabled
+      background #717171 !important
+      cursor not-allowed !important
+    &:hover
+      background #db0000
+  p.warning
+    max-width 80%
+    margin 5px auto 0
+    color grey
+    font-size 13px
+    text-align center
+
+.basic-info-widget
+  width 915px
+  height fit-content
+  padding 40px 0
+  margin 15px auto
+  border-radius .3em
+  background #161a1d
+  .content
+    width 100%
+    display flex
+    justify-content center
+    .text-wrap
+      position relative
+      text-align center
+      flex-grow 1
+      h1
+        color white
+        font-size 22px
+        margin 0
+        letter-spacing 0.5px
+      p
+        color grey
+        font-size 15px
+        margin 5px 0 0
+
+.cart-info-widget
+  margin-right 15px
+  overflow-y hidden !important
+  .seats-wrap
+    width 90%
+    margin 20px auto 0
+    position relative
+    height 316px
+    overflow-y scroll
+    .seat-wrap
+      display flex
+      justify-content left
+      position relative
+      height fit-content
+      width 90%
+      margin 0 auto
+      padding 15px 0
+      margin-bottom 10px
+      .seat
+        width 27.5px
+        height 27.5px
+        border-radius .2em
+        position relative
+        background red
+        margin-right 15px
+        margin-top 5px
+        .icon
+          width 15px
+          height 15px
+          position absolute
+          top 50%
+          left 50%
+          transform translate(-50%, -50%)
+          background-image url('/img/star.svg')
+          background-size cover
+          background-position top
+          background-repeat no-repeat
+      .seat-info
+        .seat-number
+          color white
+          margin 0
+          font-weight 600
+          font-size 16px
+          margin-bottom 5px
+        .seat-status
+          color lightgrey
+          margin 0 0 5px
+          font-size 15px
+          font-weight 100
+        .seat-name
+          color grey
+          margin 0
+          font-size 13px
+      .seat-price
+        position absolute
+        right 0
+        margin 0
+        color lightgrey
+        font-weight 900
+        top 50%
+        transform translateY(-50%)
+  .total-wrap
+    width 90%
+    margin-left 5%
+    height fit-content
+    padding 30px 0
+    border-top 1px solid #32333e
+    .charges
+      width 90%
+      margin-left 5%
+      .flex-wrap
+        display flex
+        justify-content space-between
+        margin-bottom 15px
+        p
+          margin 0
+        p.title
+          font-size 16px
+          color lightgrey
+          font-weight bold
+        p.charge
+          font-size 16px
+          color lightgrey
+      h2.total-price
+        color white
+        text-align center
+        font-weight 900
+        margin 20px 0 0
+
+.notes-info-widget
+  position relative
+  .no-notes
+    color grey
+    margin 30px 0
+    text-align center
+    display none
+    font-size 16px
+  .note
+    color lightgrey
+    width calc(80% - 20px)
+    margin 20px auto 0
+    display block
+    outline none
+    padding 10px
+    height 175px
+    background transparent
+    font-size 17px
+    resize none
+    border 1px solid transparent
+    &:hover
+      border 1px solid rgba(255,255,255,0.1)
+  .update-note-btn
+    background red
+    padding 10px 25px
+    border-radius 10000px
+    border none
+    color white
+    font-size 14px
+    font-weight 700
+    letter-spacing 0.2px
+    display block
+    cursor pointer
+    border-radius .3em
+    margin 10px auto 0
+    transition background .3s
+    &.disabled
+      background #717171 !important
+      cursor not-allowed !important
+    &:hover
+      background #db0000

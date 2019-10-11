@@ -1,4 +1,143 @@
-"use strict";var vipRows=["A","B","C"],gaSeatTotal=270,vipSeatTotal=90,getSeatTotals=function(){var a=0,b=0;return window.orders.forEach(function(c){c.seats.forEach(function(c){vipRows.includes(c.seat.slice(-1))?a++:b++})}),{vipSeatsSold:a,gaSeatsSold:b}};$(function(){// Set Seats Sold Data Widgets
-var a=function(a){var b=100*(a/vipSeatTotal);$(".vip-seats-sold-widget .seats-sold").text(a),$(".vip-seats-sold-widget .seats-left").text(vipSeatTotal-a),$(".vip-seats-sold-widget .g2").css("stroke-dashoffset",628.318530718-628.318530718*(b/100)),$(".vip-seats-sold-widget .marker").css("transform","rotate(".concat(360*(b/100),"deg)"))},b=function(a){var b=100*(a/gaSeatTotal);$(".ga-seats-sold-widget .seats-sold").text(a),$(".ga-seats-sold-widget .seats-left").text(gaSeatTotal-a),$(".ga-seats-sold-widget .g2").css("stroke-dashoffset",628.318530718-628.318530718*(b/100)),$(".ga-seats-sold-widget .marker").css("transform","rotate(".concat(360*(b/100),"deg)"))};$(document).ready(function(){a(getSeatTotals().vipSeatsSold),b(getSeatTotals().gaSeatsSold)})}),$(function(){// Set Info Widgets
-var a=function(){var a=0;return window.orders.forEach(function(b){0<b.time-(Date.now()-6048e5)&&(a+=b.prices.total)}),a.toFixed(2)},b=function(){var a=0;return window.orders.forEach(function(b){a+=b.prices.gaSeatPrice}),a.toFixed(2)},c=function(){var a=0;return window.orders.forEach(function(b){a+=b.prices.vipSeatPrice}),a.toFixed(2)};$(document).ready(function(){$(".info-widgets .ga-revenue-widget .info").text("$".concat(b())),$(".info-widgets .vip-revenue-widget .info").text("$".concat(c())),$(".info-widgets .number-of-orders-widget .info").text(window.orders.length),$(".info-widgets .this-weeks-earnings-widget .info").text("$".concat(a()))})}),$(function(){// Set Prices Widget
-$(document).ready(function(){$(".seat-prices-widget .ga-seat-price .price-inpt").val(window.seatPrices.gaSeats.toFixed(2)),$(".seat-prices-widget .vip-seat-price .price-inpt").val(window.seatPrices.vipSeats.toFixed(2)),$(".seat-prices-widget .fees-price .price-inpt").val(window.seatPrices.fees.toFixed(2))})}),$(".seat-prices-widget .price-inpt").on("input",function(a){console.log(a)}),$(".seat-prices-widget .add-btn").click(function(){var a=$(this).siblings(".price-inpt");a.val((parseFloat(a.val())+1).toFixed(2))}),$(".seat-prices-widget .minus-btn").click(function(){var a=$(this).siblings(".price-inpt");0<=parseFloat(a.val())-1&&a.val((parseFloat(a.val())-1).toFixed(2))}),$(".seat-prices-widget .update-prices").click(function(){var a={gaSeats:parseFloat($(".seat-prices-widget .ga-seat-price .price-inpt").val()),vipSeats:parseFloat($(".seat-prices-widget .vip-seat-price .price-inpt").val()),fees:parseFloat($(".seat-prices-widget .fees-price .price-inpt").val())};$.ajax({url:"/admin/setSeatPrices",type:"post",data:a,success:function success(){window.location.reload()}})}),$(function(){$(document).ready(function(){window.orders.forEach(function(a,b){if(5<=b)return!1;var c=window.orders[window.orders.length-1-b],d="";c.seats.forEach(function(a){d+="<p class=\"pill\">".concat(a.seat,"</p>")}),$(".recent-orders table tbody").append("<tr><td><p class=\"customer-info\">".concat(c.customerInformation.firstName," ").concat(c.customerInformation.lastName,"</p></td><td><p class=\"date-info\">").concat(moment(c.time).format("MMM DD, YYYY"),"</p></td><td><p class=\"price-info\">$").concat(c.prices.total.toFixed(2),"</p></td><td><div class=\"pill-flex-wrap\">").concat(d,"</td><td><div class=\"action-btn\" data-order=\"").concat(c.orderID,"\"><div class=\"icon\"></div></div></td></tr>"))})})});
+"use strict";
+
+var vipRows = ['A', 'B', 'C'];
+var gaSeatTotal = 270;
+var vipSeatTotal = 90;
+
+var getSeatTotals = function getSeatTotals() {
+  var vipSeatsSold = 0;
+  var gaSeatsSold = 0;
+  window.orders.forEach(function (item) {
+    item.seats.forEach(function (item) {
+      if (vipRows.includes(item.seat.slice(-1))) {
+        vipSeatsSold++;
+      } else {
+        gaSeatsSold++;
+      }
+    });
+  });
+  return {
+    vipSeatsSold: vipSeatsSold,
+    gaSeatsSold: gaSeatsSold
+  };
+};
+
+$(function () {
+  // Set Seats Sold Data Widgets
+  var setVIPSeats = function setVIPSeats(vipSeatsSold) {
+    var percent = vipSeatsSold / vipSeatTotal * 100;
+    var offset = 628.318530718 - percent / 100 * 628.318530718;
+    var rotation = 360 * (percent / 100);
+    $('.vip-seats-sold-widget .seats-sold').text(vipSeatsSold);
+    $('.vip-seats-sold-widget .seats-left').text(vipSeatTotal - vipSeatsSold);
+    $('.vip-seats-sold-widget .g2').css('stroke-dashoffset', offset);
+    $('.vip-seats-sold-widget .marker').css('transform', "rotate(".concat(rotation, "deg)"));
+  };
+
+  var setGASeats = function setGASeats(gaSeatsSold) {
+    var percent = gaSeatsSold / gaSeatTotal * 100;
+    var offset = 628.318530718 - percent / 100 * 628.318530718;
+    var rotation = 360 * (percent / 100);
+    $('.ga-seats-sold-widget .seats-sold').text(gaSeatsSold);
+    $('.ga-seats-sold-widget .seats-left').text(gaSeatTotal - gaSeatsSold);
+    $('.ga-seats-sold-widget .g2').css('stroke-dashoffset', offset);
+    $('.ga-seats-sold-widget .marker').css('transform', "rotate(".concat(rotation, "deg)"));
+  };
+
+  $(document).ready(function () {
+    setVIPSeats(getSeatTotals().vipSeatsSold);
+    setGASeats(getSeatTotals().gaSeatsSold);
+  });
+});
+$(function () {
+  // Set Info Widgets
+  var getWeeksRevenue = function getWeeksRevenue() {
+    var revenue = 0;
+    window.orders.forEach(function (item) {
+      if (item.time - (Date.now() - 604800000) > 0) {
+        revenue += item.prices.total;
+      }
+    });
+    return revenue.toFixed(2);
+  };
+
+  var getGARevenue = function getGARevenue() {
+    var revenue = 0;
+    window.orders.forEach(function (item) {
+      revenue += item.prices.gaSeatPrice;
+    });
+    return revenue.toFixed(2);
+  };
+
+  var getVIPRevenue = function getVIPRevenue() {
+    var revenue = 0;
+    window.orders.forEach(function (item) {
+      revenue += item.prices.vipSeatPrice;
+    });
+    return revenue.toFixed(2);
+  };
+
+  $(document).ready(function () {
+    $('.info-widgets .ga-revenue-widget .info').text("$".concat(getGARevenue()));
+    $('.info-widgets .vip-revenue-widget .info').text("$".concat(getVIPRevenue()));
+    $('.info-widgets .number-of-orders-widget .info').text(window.orders.length);
+    $('.info-widgets .this-weeks-earnings-widget .info').text("$".concat(getWeeksRevenue()));
+  });
+});
+$(function () {
+  // Set Prices Widget
+  $(document).ready(function () {
+    $('.seat-prices-widget .ga-seat-price .price-inpt').val(window.seatPrices.gaSeats.toFixed(2));
+    $('.seat-prices-widget .vip-seat-price .price-inpt').val(window.seatPrices.vipSeats.toFixed(2));
+    $('.seat-prices-widget .fees-price .price-inpt').val(window.seatPrices.fees.toFixed(2));
+  });
+});
+$('.seat-prices-widget .price-inpt').on('input', function (e) {
+  console.log(e);
+});
+$('.seat-prices-widget .add-btn').click(function () {
+  var input = $(this).siblings('.price-inpt');
+  input.val((parseFloat(input.val()) + 1).toFixed(2));
+});
+$('.seat-prices-widget .minus-btn').click(function () {
+  var input = $(this).siblings('.price-inpt');
+
+  if (parseFloat(input.val()) - 1 >= 0) {
+    input.val((parseFloat(input.val()) - 1).toFixed(2));
+  }
+});
+$('.seat-prices-widget .update-prices').click(function () {
+  var data = {
+    gaSeats: parseFloat($('.seat-prices-widget .ga-seat-price .price-inpt').val()),
+    vipSeats: parseFloat($('.seat-prices-widget .vip-seat-price .price-inpt').val()),
+    fees: parseFloat($('.seat-prices-widget .fees-price .price-inpt').val())
+  };
+  $.ajax({
+    url: '/admin/setSeatPrices',
+    type: 'post',
+    data: data,
+    success: function success() {
+      window.location.reload();
+    }
+  });
+});
+$(document).on('click', '.recent-orders .action-btn', function () {
+  window.location.href = "/admin/manage-order/".concat($(this).attr('data-order'));
+});
+$(function () {
+  $(document).ready(function () {
+    window.orders.forEach(function (item, index) {
+      if (index >= 5) {
+        return false;
+      }
+
+      var orderData = window.orders[window.orders.length - 1 - index];
+      var seatsHTML = "";
+      orderData.seats.forEach(function (item) {
+        seatsHTML += "<p class=\"pill\">".concat(item.seat, "</p>");
+      });
+      $('.recent-orders table tbody').append("<tr><td><p class=\"customer-info\">".concat(orderData.customerInformation.firstName, " ").concat(orderData.customerInformation.lastName, "</p></td><td><p class=\"date-info\">").concat(moment(orderData.time).format('MMM DD, YYYY'), "</p></td><td><p class=\"price-info\">").concat(orderData.prices.total == 0 ? 'Free' : '$' + orderData.prices.total.toFixed(2), "</p></td><td><div class=\"pill-flex-wrap\">").concat(seatsHTML, "</td><td><div class=\"action-btn\" data-order=\"").concat(orderData.orderID, "\"><div class=\"icon\"></div></div></td></tr>"));
+    });
+  });
+});
+//# sourceMappingURL=dashboard.js.map

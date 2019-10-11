@@ -3,7 +3,7 @@ $(document).ready(function() {
     $('.dashboard-nav-item').addClass('active')
   } else if(window.location.pathname == "/admin/create-ticket") {
     $('.create-ticket-nav-item').addClass('active')
-  } else if(window.location.pathname == "/admin/ticket-orders") {
+  } else if(window.location.pathname == "/admin/orders") {
     $('.ticket-orders-nav-item').addClass('active')
   } else if((window.location.pathname == "/admin/revenue")) {
     $('.revenue-nav-item').addClass('active')
@@ -11,10 +11,8 @@ $(document).ready(function() {
 })
 
 $('.dashboard-nav-item').click(() => window.location.href="/admin/dashboard")
-$('.ticket-orders-nav-item').click(() => window.location.href="/admin/ticket-orders")
+$('.ticket-orders-nav-item').click(() => window.location.href="/admin/orders")
 $('.revenue-nav-item').click(() => window.location.href="/admin/revenue")
-
-
 $('.create-ticket-nav-item').click(() => {
   window.open('/admin/create-ticket', '_blank')
 })

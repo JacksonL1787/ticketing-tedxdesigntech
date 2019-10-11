@@ -3,27 +3,21 @@ let overview = {
   price: 0
 }
 
-let rows = 12
 let seatsPerRow = 30
 let vipRows = ['A','B','C']
 let rowNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
 
-
-
 const createSeats = () => {
-  for(var i = 1; i <= rows;i++) {
+  for(var i = 1; i <= rowNames.length;i++) {
     console.log(i)
-    let column1 = []
-    let column2 = []
+    let column1 = [],
+        column2 = []
     for(var a = 1; a <= seatsPerRow;a++) {
-      let classes = 'seat available'
-      if (vipRows.includes(rowNames[i - 1])) {
-        classes = classes + ' vip-seat'
-      }
+      let classes = vipRows.includes(rowNames[i - 1]) ? 'seat available vip-seat': 'seat available';
       if(a > seatsPerRow/2) {
-        column2.push(`<div class="${classes}" data-seat="${a}${rowNames[i - 1]}"><div class="icon"></div></div>`)
+        column2.push(`<div class="${classes}" data-seat="${rowNames[i - 1]}${a}"><div class="icon"></div></div>`)
       } else {
-        column1.push(`<div class="${classes}" data-seat="${a}${rowNames[i - 1]}"><div class="icon"></div></div>`)
+        column1.push(`<div class="${classes}" data-seat="${rowNames[i - 1]}${a}"><div class="icon"></div></div>`)
       }
     }
     $('.seat-wrap').append(`<div class="row row${i}"><div class="column1 column">${column1.join("")}</div><p class="row-letter">${rowNames[i - 1]}</p><div class="column2 column">${column2.join("")}</div></div>`)
@@ -70,13 +64,13 @@ const selectSeat = (seat) => {
   if(seat.hasClass('vip-seat')) {
     number = parseInt($('.vip-tickets-wrap .number-of-tickets .number').text()) + 1
     $('.vip-tickets-wrap .number-of-tickets .number').text(number)
-    setPrice(window.seatPrices.vipSeats)
-    addSeatInfo(seat.attr('data-seat'), window.seatPrices.vipSeats)
+    setPrice(parseFloat(window.seatPrices.VIP.price))
+    addSeatInfo(seat.attr('data-seat'), window.seatPrices.VIP.price)
   } else {
     number = parseInt($('.ga-tickets-wrap .number-of-tickets .number').text()) + 1
     $('.ga-tickets-wrap .number-of-tickets .number').text(number)
-    setPrice(window.seatPrices.gaSeats)
-    addSeatInfo(seat.attr('data-seat'), window.seatPrices.gaSeats)
+    setPrice(parseFloat(window.seatPrices.GA.price))
+    addSeatInfo(seat.attr('data-seat'), window.seatPrices.GA.price)
   }
 
 }
@@ -91,11 +85,11 @@ const removeSeat = (seat) => {
   if(seat.hasClass('vip-seat')) {
     number = parseInt($('.vip-tickets-wrap .number-of-tickets .number').text()) - 1
     $('.vip-tickets-wrap .number-of-tickets .number').text(number)
-    setPrice(-window.seatPrices.vipSeats)
+    setPrice(-parseFloat(window.seatPrices.VIP.price))
   } else {
     number = parseInt($('.ga-tickets-wrap .number-of-tickets .number').text()) - 1
     $('.ga-tickets-wrap .number-of-tickets .number').text(number)
-    setPrice(-window.seatPrices.gaSeats)
+    setPrice(-parseFloat(window.seatPrices.GA.price))
   }
 }
 
@@ -138,13 +132,7 @@ $('.next-step').click(function() {
     }
     $.post({
       url: "/createOrder",
-      data: data,
-      success: function() {
-        window.location.href="/seats/information"
-      }
+      data: data
     })
   }
 })
-
-
-module.exports = createSeats

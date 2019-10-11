@@ -1,0 +1,89 @@
+script.
+  let rawOrder = "#{order}"
+  window.order = JSON.parse(rawOrder.replace(/&quot;/g, '"'))
+
+.flex-wrap.info-flex-wrap
+  .customer-info-widget
+    h2.widget-title Customer Information
+    .inputs-wrap
+      .input-flex-wrap
+        .input-wrap
+          label First Name
+          input.first-name-inpt(type="text")
+        .input-wrap
+          label Last Name
+          input.last-name-inpt(type="text")
+      .input-wrap
+        label Email
+        input.email-inpt(type="text")
+      .input-wrap
+        label Phone Number
+        input.phone-number-inpt(type="text")
+      .input-wrap
+        label Address Line 1
+        input.address-1-inpt(type="text")
+      .input-wrap
+        label Address Line 2
+        input.address-2-inpt(type="text")
+      .input-flex-wrap.address-flex-wrap
+        .input-wrap
+          label City
+          input.city-inpt(type="text")
+        .input-wrap
+          label State
+          input.state-inpt(type="text")
+        .input-wrap
+          label Zip Code
+          input.zip-code-inpt(type="text")
+  .seat-info-widget
+    h2.widget-title Seats Information
+    .seats-wrap.ga-seats
+      .title-wrap
+        .seat
+        h3 GA Seats 
+      p.no-seats No GA Seats
+      .inputs-wrap
+    .divider
+    .seats-wrap.vip-seats
+      .title-wrap
+        .seat
+          .icon
+        h3 VIP Seats
+      p.no-seats No VIP Seats
+      .inputs-wrap
+.update-info-widget
+  .send-email-wrap.hidden
+    .checkbox
+      .icon
+    p Send an email to customer with updates
+  button.update-info-btn.disabled Update Information
+  p.warning WARNING: This will update the order with any changes made to the information above
+.basic-info-widget
+  .content
+    .text-wrap.order-id-wrap
+      h1 
+      p Order ID
+    .text-wrap.purchase-time-wrap
+      h1 
+      p Time of Purchase
+.flex-wrap.checkout-flex-wrap
+  .cart-info-widget
+    h2.widget-title Cart Information
+    .seats-wrap
+    .total-wrap
+      .charges
+        .flex-wrap.subtotal-wrap
+          p.title Subtotal
+          p.charge
+        .flex-wrap.fees-wrap
+          p.title Fees
+          p.charge 
+        h2.total-price 
+  .payment-info-widget
+    h2.widget-title Payment Information
+.notes-info-widget
+  h2.widget-title Order Note
+  textarea.note(placeholder="No Notes" data-gramm_editor="false")
+  button.update-note-btn.disabled Update Note
+.previous-changes-widget
+  h2.widget-title Previous Order Changes

@@ -4,7 +4,10 @@ var router = express.Router();
 const auth = require('../auth')
 const updateDB = require('./updateDB')
 const render = require('./render')
-const seats = require('../seats')
+const getTakenSeats = require('../../db/seats/getTakenSeats')
+const getSeatPrices = require('../../db/seatTypes/getSeatPrices')
+const createOrder = require('../../db/orders/createOrder')
+const createCustomer = require('../../db/customers/createCustomer')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -12,11 +15,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/seats/selection', async function(req, res, next) {
-  if(req.session.order) {
-    render.seatSelection(req,res)
-  } else {
-    res.render('seat-selection', {seatPrices: JSON.stringify(await seats.getPrices(req)), takenSeats: JSON.stringify(await seats.takenSeats(req))});
-  }
+  res.render('seat-selection', {seatPrices: JSON.stringify(await getSeatPrices()), takenSeats: JSON.stringify(await getTakenSeats())});
+  res.cookie('session_string', sessionString, {maxAge: 900000 /* 15 Minutes */})
+  res.send(200)
 });
 
 router.get('/seats/information', async function(req, res, next) {
@@ -28,19 +29,21 @@ router.get('/seats/information', async function(req, res, next) {
 });
 
 router.get('/customer/information', function(req, res, next) {
-  if(req.session.order) {
-    render.customerInformation(req,res)
-  } else {
-    res.redirect('/seats/information')
-  }
+  res.render('customer-information')
+  // if(req.session.order) {
+  //   render.customerInformation(req,res)
+  // } else {
+  //   res.redirect('/seats/information')
+  // }
 });
 
 router.get('/seats/checkout', function(req, res, next) {
-  if(req.session.order) {
-    render.seatCheckout(req,res)
-  } else {
-    res.redirect('/customer/information')
-  }
+
+  // if(req.session.order) {
+  //   render.seatCheckout(req,res)
+  // } else {
+  //   res.redirect('/customer/information')
+  // }
 });
 
 router.get('/order-complete/', function(req, res, next) {
@@ -48,7 +51,7 @@ router.get('/order-complete/', function(req, res, next) {
 });
 
 router.post('/createOrder', function(req,res,next) {
-  updateDB.createOrder(req,res)
+  createOrder(req,res)
 })
 
 router.post('/seatNames', function(req,res,next) {
@@ -56,7 +59,7 @@ router.post('/seatNames', function(req,res,next) {
 })
 
 router.post('/addCustomerInformation', function(req,res,next) {
-  updateDB.addCustomerInformation(req,res)
+  createCustomer(req.body)
 })
 
 router.post('/finishOrder', function(req,res,next) {

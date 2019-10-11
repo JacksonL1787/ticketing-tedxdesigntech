@@ -1,1 +1,147 @@
-"use strict";var overview={seats:[],price:0},rows=12,seatsPerRow=30,vipRows=["A","B","C"],rowNames=["A","B","C","D","E","F","G","H","I","J","K","L"],createSeats=function(){for(var b=1;b<=rows;b++){console.log(b);for(var c,d=[],e=[],f=1;f<=seatsPerRow;f++)c="seat available",vipRows.includes(rowNames[b-1])&&(c+=" vip-seat"),f>seatsPerRow/2?e.push("<div class=\"".concat(c,"\" data-seat=\"").concat(f).concat(rowNames[b-1],"\"><div class=\"icon\"></div></div>")):d.push("<div class=\"".concat(c,"\" data-seat=\"").concat(f).concat(rowNames[b-1],"\"><div class=\"icon\"></div></div>"));$(".seat-wrap").append("<div class=\"row row".concat(b,"\"><div class=\"column1 column\">").concat(d.join(""),"</div><p class=\"row-letter\">").concat(rowNames[b-1],"</p><div class=\"column2 column\">").concat(e.join(""),"</div></div>"))}},markTakenSeats=function(){window.takenSeats&&window.takenSeats.forEach(function(a){$(".seat-wrap .seat[data-seat=\"".concat(a,"\"]")).addClass("taken").removeClass("available")})},setPrice=function(a){overview.price+=a,0>=overview.price?($(".purchase-wrap .next-step").addClass("disabled"),$(".purchase-wrap p.total").text("No Tickets Selected")):($(".purchase-wrap .next-step").removeClass("disabled"),$(".purchase-wrap p.total").html("Total: <span class=\"total-price\">$".concat(overview.price,"+ Fees</span>")))},addSeatInfo=function(a,b){$(".overview-wrap .seats-wrap").append("<div class=\"seat-number-wrap\"><p class=\"seat-price\">$".concat(b,"</p><p class=\"seat-number\">").concat(a,"</p></div>"))},removeSeatInfo=function(a){$(".overview-wrap .seats-wrap .seat-number-wrap").each(function(){if($(this).children(".seat-number").text()==a)return void $(this).remove()})},selectSeat=function(a){overview.seats.push(a.attr("data-seat"));var b;$(".seats-wrap .none-selected").hide(),a.hasClass("vip-seat")?(b=parseInt($(".vip-tickets-wrap .number-of-tickets .number").text())+1,$(".vip-tickets-wrap .number-of-tickets .number").text(b),setPrice(window.seatPrices.vipSeats),addSeatInfo(a.attr("data-seat"),window.seatPrices.vipSeats)):(b=parseInt($(".ga-tickets-wrap .number-of-tickets .number").text())+1,$(".ga-tickets-wrap .number-of-tickets .number").text(b),setPrice(window.seatPrices.gaSeats),addSeatInfo(a.attr("data-seat"),window.seatPrices.gaSeats))},removeSeat=function(a){overview.seats.splice(overview.seats.indexOf(a.attr("data-seat")),1),0==overview.seats.length&&$(".seats-wrap .none-selected").show();var b;removeSeatInfo(a.attr("data-seat")),a.hasClass("vip-seat")?(b=parseInt($(".vip-tickets-wrap .number-of-tickets .number").text())-1,$(".vip-tickets-wrap .number-of-tickets .number").text(b),setPrice(-window.seatPrices.vipSeats)):(b=parseInt($(".ga-tickets-wrap .number-of-tickets .number").text())-1,$(".ga-tickets-wrap .number-of-tickets .number").text(b),setPrice(-window.seatPrices.gaSeats))},selectCurrentSeats=function(){window.seatData&&window.seatData.seats.forEach(function(a){var b=document.createElement("div");b.setAttribute("data-seat",a.seat),vipRows.includes(a.seat[a.seat.length-1])&&b.setAttribute("class","vip-seat"),$(".seat-wrap .seat[data-seat=\"".concat(a.seat,"\"]")).addClass("selected"),selectSeat($(b))})};$(document).on("click",".seat",function(){$(this).hasClass("taken")||($(this).hasClass("selected")?($(this).removeClass("selected"),removeSeat($(this))):($(this).addClass("selected"),selectSeat($(this))))}),$(document).ready(function(){createSeats(),selectCurrentSeats(),markTakenSeats()}),$(".next-step").click(function(){if(!$(this).hasClass("disabled")){var a={seats:overview.seats};$.post({url:"/createOrder",data:a,success:function success(){window.location.href="/seats/information"}})}}),module.exports=createSeats;
+"use strict";
+
+var overview = {
+  seats: [],
+  price: 0
+};
+var seatsPerRow = 30;
+var vipRows = ['A', 'B', 'C'];
+var rowNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+
+var createSeats = function createSeats() {
+  for (var i = 1; i <= rowNames.length; i++) {
+    console.log(i);
+    var column1 = [],
+        column2 = [];
+
+    for (var a = 1; a <= seatsPerRow; a++) {
+      var classes = vipRows.includes(rowNames[i - 1]) ? 'seat available vip-seat' : 'seat available';
+
+      if (a > seatsPerRow / 2) {
+        column2.push("<div class=\"".concat(classes, "\" data-seat=\"").concat(rowNames[i - 1]).concat(a, "\"><div class=\"icon\"></div></div>"));
+      } else {
+        column1.push("<div class=\"".concat(classes, "\" data-seat=\"").concat(rowNames[i - 1]).concat(a, "\"><div class=\"icon\"></div></div>"));
+      }
+    }
+
+    $('.seat-wrap').append("<div class=\"row row".concat(i, "\"><div class=\"column1 column\">").concat(column1.join(""), "</div><p class=\"row-letter\">").concat(rowNames[i - 1], "</p><div class=\"column2 column\">").concat(column2.join(""), "</div></div>"));
+  }
+};
+
+var markTakenSeats = function markTakenSeats() {
+  if (window.takenSeats) {
+    window.takenSeats.forEach(function (item) {
+      $(".seat-wrap .seat[data-seat=\"".concat(item, "\"]")).addClass('taken').removeClass('available');
+    });
+  }
+};
+
+var setPrice = function setPrice(change) {
+  overview.price += change;
+
+  if (overview.price <= 0) {
+    $('.purchase-wrap .next-step').addClass('disabled');
+    $('.purchase-wrap p.total').text('No Tickets Selected');
+  } else {
+    $('.purchase-wrap .next-step').removeClass('disabled');
+    $('.purchase-wrap p.total').html("Total: <span class=\"total-price\">$".concat(overview.price, "+ Fees</span>"));
+  }
+};
+
+var addSeatInfo = function addSeatInfo(seat, price) {
+  $('.overview-wrap .seats-wrap').append("<div class=\"seat-number-wrap\"><p class=\"seat-price\">$".concat(price, "</p><p class=\"seat-number\">").concat(seat, "</p></div>"));
+};
+
+var removeSeatInfo = function removeSeatInfo(seat) {
+  var seatNum = seat;
+  $('.overview-wrap .seats-wrap .seat-number-wrap').each(function () {
+    if ($(this).children('.seat-number').text() == seatNum) {
+      $(this).remove();
+      return;
+    }
+  });
+};
+
+var selectSeat = function selectSeat(seat) {
+  overview.seats.push(seat.attr('data-seat'));
+  var number;
+  $('.seats-wrap .none-selected').hide();
+
+  if (seat.hasClass('vip-seat')) {
+    number = parseInt($('.vip-tickets-wrap .number-of-tickets .number').text()) + 1;
+    $('.vip-tickets-wrap .number-of-tickets .number').text(number);
+    setPrice(parseFloat(window.seatPrices.VIP.price));
+    addSeatInfo(seat.attr('data-seat'), window.seatPrices.VIP.price);
+  } else {
+    number = parseInt($('.ga-tickets-wrap .number-of-tickets .number').text()) + 1;
+    $('.ga-tickets-wrap .number-of-tickets .number').text(number);
+    setPrice(parseFloat(window.seatPrices.GA.price));
+    addSeatInfo(seat.attr('data-seat'), window.seatPrices.GA.price);
+  }
+};
+
+var removeSeat = function removeSeat(seat) {
+  overview.seats.splice(overview.seats.indexOf(seat.attr('data-seat')), 1);
+
+  if (overview.seats.length == 0) {
+    $('.seats-wrap .none-selected').show();
+  }
+
+  var number;
+  removeSeatInfo(seat.attr('data-seat'));
+
+  if (seat.hasClass('vip-seat')) {
+    number = parseInt($('.vip-tickets-wrap .number-of-tickets .number').text()) - 1;
+    $('.vip-tickets-wrap .number-of-tickets .number').text(number);
+    setPrice(-parseFloat(window.seatPrices.VIP.price));
+  } else {
+    number = parseInt($('.ga-tickets-wrap .number-of-tickets .number').text()) - 1;
+    $('.ga-tickets-wrap .number-of-tickets .number').text(number);
+    setPrice(-parseFloat(window.seatPrices.GA.price));
+  }
+};
+
+var selectCurrentSeats = function selectCurrentSeats() {
+  if (window.seatData) {
+    window.seatData.seats.forEach(function (item) {
+      var newDiv = document.createElement('div');
+      newDiv.setAttribute('data-seat', item.seat);
+
+      if (vipRows.includes(item.seat[item.seat.length - 1])) {
+        newDiv.setAttribute('class', 'vip-seat');
+      }
+
+      $(".seat-wrap .seat[data-seat=\"".concat(item.seat, "\"]")).addClass('selected');
+      selectSeat($(newDiv));
+    });
+  }
+};
+
+$(document).on('click', '.seat', function () {
+  if (!$(this).hasClass('taken')) {
+    if ($(this).hasClass('selected')) {
+      $(this).removeClass('selected');
+      removeSeat($(this));
+    } else {
+      $(this).addClass('selected');
+      selectSeat($(this));
+    }
+  }
+});
+$(document).ready(function () {
+  createSeats();
+  selectCurrentSeats();
+  markTakenSeats();
+});
+$('.next-step').click(function () {
+  if (!$(this).hasClass('disabled')) {
+    var data = {
+      seats: overview.seats
+    };
+    $.post({
+      url: "/createOrder",
+      data: data
+    });
+  }
+});
+//# sourceMappingURL=seat-selection.js.map

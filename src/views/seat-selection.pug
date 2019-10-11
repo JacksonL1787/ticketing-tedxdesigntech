@@ -12,11 +12,11 @@ html
       const rawTakenSeats = "#{takenSeats}"
       const rawSeatPrices = "#{seatPrices}"
       window.seatPrices = JSON.parse(rawSeatPrices.replace(/&quot;/g, '"'))
-      if(rawSeatData) {
-        window.seatData = JSON.parse(rawSeatData.replace(/&quot;/g, '"'))
-      }
       if(rawTakenSeats) {
         window.takenSeats = JSON.parse(rawTakenSeats.replace(/&quot;/g, '"'))
+      }
+      if(rawSeatData) {
+        window.seatData = JSON.parse(rawSeatData.replace(/&quot;/g, '"'))
       }
       
     .top

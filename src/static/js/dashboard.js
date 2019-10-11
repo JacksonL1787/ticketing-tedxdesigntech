@@ -120,6 +120,10 @@ $('.seat-prices-widget .update-prices').click(function() {
   })
 })
 
+$(document).on('click', '.recent-orders .action-btn', function() {
+  window.location.href=`/admin/manage-order/${$(this).attr('data-order')}`
+})
+
 $(function() {
   $(document).ready(function() {
     window.orders.forEach(function(item, index) {
@@ -131,7 +135,7 @@ $(function() {
       orderData.seats.forEach(function(item) {
         seatsHTML+= `<p class="pill">${item.seat}</p>`
       })
-      $('.recent-orders table tbody').append(`<tr><td><p class="customer-info">${orderData.customerInformation.firstName} ${orderData.customerInformation.lastName}</p></td><td><p class="date-info">${moment(orderData.time).format('MMM DD, YYYY')}</p></td><td><p class="price-info">$${orderData.prices.total.toFixed(2)}</p></td><td><div class="pill-flex-wrap">${seatsHTML}</td><td><div class="action-btn" data-order="${orderData.orderID}"><div class="icon"></div></div></td></tr>`)
+      $('.recent-orders table tbody').append(`<tr><td><p class="customer-info">${orderData.customerInformation.firstName} ${orderData.customerInformation.lastName}</p></td><td><p class="date-info">${moment(orderData.time).format('MMM DD, YYYY')}</p></td><td><p class="price-info">${orderData.prices.total == 0 ? 'Free' : '$' + orderData.prices.total.toFixed(2)}</p></td><td><div class="pill-flex-wrap">${seatsHTML}</td><td><div class="action-btn" data-order="${orderData.orderID}"><div class="icon"></div></div></td></tr>`)
     })
   })
 })

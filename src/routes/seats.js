@@ -13,11 +13,18 @@ module.exports = {
     }
     return await getSeats()
   },
-  getOrders: async function(req) {
+  getOrders: async function(req, orderID) {
     async function getOrders() {
       const db = req.app.get("db");
-      var orders = await db.collection('orders').find({}).toArray();
-      return orders
+      if(orderID) {
+        var order = await db.collection('orders').find({orderID: orderID}).toArray();
+        return order[0]
+      } else {
+        var orders = await db.collection('orders').find({}).toArray();
+        return orders
+      }
+
+
     }
     return await getOrders()
   },

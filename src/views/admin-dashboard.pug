@@ -13,20 +13,20 @@ html
 			include dashboard-components/nav
 			.dashboard-main
 				.dashboard-content
-					h1.page-title #{page}
+					h1.page-title #{title}
 					case page
 						when 'Dashboard'
 							link(rel='stylesheet', href="/css/dashboard.css")
 							include dashboard-components/dashboard
 							script(src="/js/dashboard.js")
-						when 'Create Ticket'
-							link(rel='stylesheet', href="/css/create-ticket.css")
-							include dashboard-components/create-ticket
-							script(src="/js/create-ticket.js")
-						when 'Ticket Orders'
-							link(rel='stylesheet', href="/css/ticket-orders.css")
-							include dashboard-components/ticket-orders
-							script(src="/js/ticket-orders.js")
+						when 'Manage Order'
+							link(rel='stylesheet', href="/css/manage-order.css")
+							include dashboard-components/manage-order
+							script(src="/js/manage-order.js")
+						when 'Orders'
+							link(rel='stylesheet', href="/css/orders.css")
+							include dashboard-components/orders
+							script(src="/js/orders.js")
 						when 'Revenue'
 							link(rel='stylesheet', href="/css/revenue.css")
 							include dashboard-components/revenue

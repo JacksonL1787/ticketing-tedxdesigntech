@@ -9,7 +9,7 @@ module.exports = {
       const data = {
         seats: orderData[0].seats
       }
-      res.render('seat-selection', {seatPrices: JSON.stringify(await seats.getPrices(req)), seatData: JSON.stringify(data), takenSeats: JSON.stringify(await seats.takenSeats(req))})
+      //res.render('seat-selection', {takenSeats: JSON.stringify(await getTakenSeats(req))})
     }
     render()
   },
