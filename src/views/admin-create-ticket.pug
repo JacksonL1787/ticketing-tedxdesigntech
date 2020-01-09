@@ -12,6 +12,8 @@ html
       if(rawTakenSeats) {
         window.takenSeats = JSON.parse(rawTakenSeats.replace(/&quot;/g, '"'))
       }
+    .top-tag-wrap.show
+      p.tag-text Create Free Tickets
     .module1
       .top
         h1.page-title Seat Selection
@@ -45,28 +47,6 @@ html
     .module2.hidden
       .top
         button.go-back-btn Go Back
-        h1.page-title Seat Information
-      .form-content
-        p.form-info Please specify, by first and last name, who will be sitting in each seat.
-        .ga-tickets.tickets-wrap
-          .title-wrap
-            .seat
-            h2.section-title GA Seats
-          p.no-tickets No GA Seats
-          .inputs-wrap
-        .vip-tickets.tickets-wrap
-          .title-wrap
-            .seat
-              .icon
-            h2.section-title VIP Seats
-          p.no-tickets No VIP Seats
-          .inputs-wrap
-        .next-step.disabled
-          p Continue
-          .arrow
-    .module3.hidden
-      .top
-        button.go-back-btn Go Back
         h1.page-title Customer Information
       .content
         .basic-info-form
@@ -84,7 +64,29 @@ html
               input.city-inpt(type="text" placeholder="City")
               input.state-inpt(type="text" placeholder="State")
             input.zip-code-inpt(type="text" placeholder="Zip Code")
-            button.finish-order-btn.disabled Finish Order
+            .next-step.disabled
+              p Continue
+              .arrow
+    .module3.hidden
+      .top
+        button.go-back-btn Go Back
+        h1.page-title Seat Information
+      .form-content
+        p.form-info Please specify, by first and last name, who will be sitting in each seat.
+        .ga-tickets.tickets-wrap
+          .title-wrap
+            .seat
+            h2.section-title GA Seats
+          p.no-tickets No GA Seats
+          .inputs-wrap
+        .vip-tickets.tickets-wrap
+          .title-wrap
+            .seat
+              .icon
+            h2.section-title VIP Seats
+          p.no-tickets No VIP Seats
+          .inputs-wrap
+        button.finish-order-btn.disabled Finish Order
     
     .order-complete-page.hidden
       .content

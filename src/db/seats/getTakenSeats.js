@@ -6,21 +6,18 @@ module.exports = async (seats, db) => {
   if(!seats) {
     return seats
   }
+  const seatsRaw = seats.reduce((a, c, i, s) => a += s.length === i+1 ? `'${c}'` : `'${c}', `, '')
+  const takenSeats = await db.raw(
+    `SELECT "seats"."name" AS "seat_name"
+FROM
+	"seats"
+	INNER JOIN "seats_reservations" ON "seats"."id" = "seats_reservations"."seat_id" AND "seats"."name" IN (${seatsRaw})
+WHERE
+	"seats"."order_id" IS NOT NULL
+	OR "seats_reservations"."id" IS NOT NULL
+	AND seats_reservations.timestamp >= now() - interval '15 minutes'
+`)
 
-  const takenSeats = await db.select(
-      db.ref(`${tables.seats}.name`)
-      .as('seat_name'))
-    .from(tables.seats)
-    .innerJoin(tables.seatsReservations,
-      `${tables.seats}.id`,
-      `${tables.seatsReservations}.seat_id`)
-    .whereIn(`${tables.seats}.name`, seats)
-    .whereNotNull(`${tables.seats}.order_id`)
-    .orWhereNotNull(`${tables.seatsReservations}.id`)
-    .where(`${tables.seatsReservations}.timestamp`, '>=', 'now()', '-', 'interval', '15 minutes')
-  return takenSeats.map(ts => ts.seat_name)
+  console.log(takenSeats.rows)
+  return takenSeats.rows.map(ts => ts.seat_name)
 }
-
-(async() => {
-  console.log(await module.exports(['A1', 'A2', 'A3'], require('../pool').reader))
-})()

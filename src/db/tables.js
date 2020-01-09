@@ -5,5 +5,6 @@ module.exports = {
   orderStatuses: 'order_statuses',
   seatTypes: 'seat_types',
   seatsReservations: 'seats_reservations',
-  sessions: 'sessions'
+  sessions: 'sessions',
+  payment: 'payment'
 }

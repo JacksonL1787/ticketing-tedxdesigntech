@@ -11,12 +11,13 @@ let seatsPerRow = 30
 let vipRows = ['A','B','C']
 let rowNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
 
-
+console.log('run')
 
 const createSeats = () => {
   let seats = []
   rowNames.forEach((row, i) => {
     for(let a = 1; a <= seatsPerRow;a++) {
+      console.log
       let tempSeat;
       seats.push({
         name: row + a,

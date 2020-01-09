@@ -1,6 +1,6 @@
 script.
 	let rawOrders = "#{orders}"
-	window.orders = JSON.parse(rawOrders.replace(/&quot;/g, '"'))
+	if(rawOrders) window.orders = JSON.parse(rawOrders.replace(/&quot;/g, '"'))
 	
 .search-wrap
 	.search-bar-wrap

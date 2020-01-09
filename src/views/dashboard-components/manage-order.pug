@@ -62,7 +62,7 @@ script.
   .content
     .text-wrap.order-id-wrap
       h1 
-      p Order ID
+      p Order Code
     .text-wrap.purchase-time-wrap
       h1 
       p Time of Purchase
@@ -78,12 +78,9 @@ script.
         .flex-wrap.fees-wrap
           p.title Fees
           p.charge 
-        h2.total-price 
-  .payment-info-widget
-    h2.widget-title Payment Information
-.notes-info-widget
-  h2.widget-title Order Note
-  textarea.note(placeholder="No Notes" data-gramm_editor="false")
-  button.update-note-btn.disabled Update Note
-.previous-changes-widget
-  h2.widget-title Previous Order Changes
+        h2.total-price
+  .notes-info-widget
+    .note-status-loader
+    p.note-status-updated Saved
+    h2.widget-title Order Note
+    textarea.note(placeholder="No Notes" data-gramm_editor="false")

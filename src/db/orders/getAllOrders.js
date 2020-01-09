@@ -1,0 +1,35 @@
+const { reader } = require('../pool')
+const tables = require('../tables')
+const getOrderSeats = require('../seats/getOrderSeats')
+
+module.exports = async () => {
+  const orders = await reader
+    .select(
+      `${tables.customers}.first_name`,
+      `${tables.customers}.last_name`,
+      `${tables.customers}.email`,
+      `${tables.customers}.phone_number`,
+      `${tables.customers}.address_line_1 as address_line_one`,
+      `${tables.customers}.address_line_2 as address_line_two`,
+      `${tables.customers}.city`,
+      `${tables.customers}.state`,
+      `${tables.customers}.zip_code`,
+      `${tables.orders}.order_code`,
+      `${tables.orders}.status as order_status`,
+      `${tables.orders}.timestamp as timestamp`,
+      `${tables.orders}.id as order_id`,
+      `${tables.payment}.amount as payment_amount`)
+    .from(tables.orders)
+    .join(tables.customers, `${tables.customers}.order_id`, '=', `${tables.orders}.id`)
+    .join(tables.payment, `${tables.payment}.order_id`, '=', `${tables.orders}.id`)
+    .orderByRaw('timestamp DESC')
+    .where(`${tables.orders}.status`, 4)
+
+
+    const createOrderObject = async item => {
+      return {...item, timestamp: new Date(item.timestamp).getTime(0), seats: await getOrderSeats(item.order_id)}
+    }
+    const allOrders = await Promise.all(orders.map(item => createOrderObject(item)))
+    console.log(allOrders)
+    return allOrders
+}

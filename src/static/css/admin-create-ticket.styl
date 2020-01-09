@@ -1,3 +1,38 @@
+.top-tag-wrap
+  background #161A1D
+  position relative
+  height 40px
+  overflow hidden
+  z-index 100
+  width 100%
+  transition height .3s
+  border-bottom 1px solid #32333e
+  p.tag-text
+    margin 0
+    color white
+    font-size 15px
+    font-weight bold
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%, -50%)
+  .close
+    background-image url('/img/close.svg')
+    background-size cover
+    background-position center
+    background-repeat no-repeat
+    position absolute
+    cursor pointer
+    top calc(50% + 1px)
+    right 20px
+    height 18px
+    width 18px
+    transform translateY(-50%)
+
+
+.go-back-btn
+  top 60px !important
+
 .module1
   @import 'seat-selection.styl'
   .top
@@ -51,10 +86,11 @@
       transition right .3s, opacity .3s
 
 .module2
-  @import 'seat-information.styl'
+  @import 'customer-information.styl'
+
 
 .module3
-  @import 'customer-information.styl'
+  @import 'seat-information.styl'
   .finish-order-btn
     width 180px
     margin 30px auto 0

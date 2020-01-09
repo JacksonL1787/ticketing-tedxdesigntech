@@ -8,8 +8,6 @@ html
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
     script.
       var rawSeatData = "#{seatData}"
-      const rawSeatPrices = "#{seatPrices}"
-      window.seatPrices = JSON.parse(rawSeatPrices.replace(/&quot;/g, '"'))
       window.seatData = JSON.parse(rawSeatData.replace(/&quot;/g, '"'))
   body
     .top

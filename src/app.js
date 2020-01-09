@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session')
-var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 
 const port = 3000
@@ -54,16 +53,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-mongoose.connect('mongodb://localhost/ticketing', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}, (err, client) => {
-  if(err) {
-    console.log(err)
-    process.exit(1)
-  }
-  app.set("db", client)
-  const server = app.listen(port, () => console.log('Server started listening on port '+ port + "!"));
-});
+const server = app.listen(port, () => console.log('Server started listening on port '+ port + "!"));
 
 module.exports = app;

@@ -1,6 +1,5 @@
 let orderData = new Object
 
-
 /*
 
   MODULE 1 FUNCTIONS
@@ -8,25 +7,21 @@ let orderData = new Object
 */
 
 $(function() {
-  let rows = 12
   let seatsPerRow = 30
   let vipRows = ['A','B','C']
   let rowNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
   let seatCount = 0
 
   const createSeats = () => {
-    for(var i = 1; i <= rows;i++) {
-      let column1 = []
-      let column2 = []
+    for(var i = 1; i <= rowNames.length;i++) {
+      let column1 = [],
+          column2 = []
       for(var a = 1; a <= seatsPerRow;a++) {
-        let classes = 'seat available'
-        if (vipRows.includes(rowNames[i - 1])) {
-          classes = classes + ' vip-seat'
-        }
+        let classes = vipRows.includes(rowNames[i - 1]) ? 'seat available vip-seat': 'seat available';
         if(a > seatsPerRow/2) {
-          column2.push(`<div class="${classes}" data-seat="${a}${rowNames[i - 1]}"><div class="icon"></div></div>`)
+          column2.push(`<div class="${classes}" data-seat="${rowNames[i - 1]}${a}"><div class="icon"></div></div>`)
         } else {
-          column1.push(`<div class="${classes}" data-seat="${a}${rowNames[i - 1]}"><div class="icon"></div></div>`)
+          column1.push(`<div class="${classes}" data-seat="${rowNames[i - 1]}${a}"><div class="icon"></div></div>`)
         }
       }
       $('.module1 .seat-wrap').append(`<div class="row row${i}"><div class="column1 column">${column1.join("")}</div><p class="row-letter">${rowNames[i - 1]}</p><div class="column2 column">${column2.join("")}</div></div>`)
@@ -36,7 +31,22 @@ $(function() {
   const markTakenSeats = () => {
     if(window.takenSeats) {
       window.takenSeats.forEach(function(item) {
-        $(`.module1 .seat-wrap .seat[data-seat="${item}"]`).addClass('taken').removeClass('available')
+        console.log(item.name)
+        $(`.module1 .seat-wrap .seat[data-seat="${item.name}"]`).addClass('taken').removeClass('available')
+      })
+    }
+  }
+
+  const selectCurrentSeats = () => {
+    if(window.userSeats) {
+      window.userSeats.forEach(function(item) {
+        let newDiv = document.createElement('div')
+        newDiv.setAttribute('data-seat', item.name)
+        if(item.type === "VIP") {
+          newDiv.setAttribute('class', 'vip-seat')
+        }
+        $(`.seat-wrap .seat[data-seat="${item.name}"]`).addClass('selected')
+        selectSeat($(newDiv))
       })
     }
   }
@@ -49,7 +59,7 @@ $(function() {
     }
   }
 
-  $(document).on('click', '.module1 .seat', function() {
+  $(document).on('click', '.module1 .seat-wrap .seat', function() {
     if(!$(this).hasClass('taken')) {
       if($(this).hasClass('selected')) {
         $(this).removeClass('selected')
@@ -75,6 +85,66 @@ $(function() {
 
 */
 
+
+$(function() {
+
+  const check = () => {
+    let checkStatus = true
+    $('.module2 input').each(function() {
+      if(!$(this).hasClass('address-line-two-inpt')) {
+        if($(this).val().replace(/ /g, '')) {
+          if($(this).val().length <= 0) {
+            checkStatus = false;
+            return;
+          }
+          if($('.module2 .email-inpt').val()) {
+            if(!$('.module2 .email-inpt').val().includes("@") || !$('.module2 .email-inpt').val().includes(".")) {
+              checkStatus = false
+            }
+          }
+        } else {
+          checkStatus = false
+        }
+      }
+    })
+    if(checkStatus) {
+      $('.module2 .next-step').removeClass('disabled')
+    } else {
+      $('.module2 .next-step').addClass('disabled')
+    }
+  }
+  $('.module2 input').on('input', check)
+
+  $('.module2 .go-back-btn').click(function() {
+    $('.module1').removeClass('hidden')
+    $('.module2').addClass('hidden')
+  })
+
+  $('.module1 .next-step').click(function() {
+    if(!$(this).hasClass('disabled')) {
+      $('.module1').addClass('hidden')
+      $('.module2').removeClass('hidden')
+      let data = {
+        seats: []
+      }
+      $('.module1 .seat-wrap .seat.selected').each(function() {
+        data.seats.push($(this).data('seat'))
+      })
+      $.post({
+        url: "/api/createOrder",
+        data: data
+      })
+    }
+  })
+})
+
+
+/*
+
+  MODULE 3 FUNCTIONS
+
+*/
+
 $(function() {
   let vipRows = ['A', 'B', 'C']
 
@@ -84,35 +154,35 @@ $(function() {
       let inputVal = ''
       if(item.name) {
         inputVal = item.name
-        $('.module2 .next-step').removeClass('disabled')
+        $('.module3 .next-step').removeClass('disabled')
       }
       let appendWrap = '.ga-tickets'
       if(vipRows.includes(item.seat[item.seat.length - 1])) {
         appendWrap = '.vip-tickets'
       }
-      $(`.module2 .form-content ${appendWrap} .inputs-wrap`).append(`<div class="seat-input-wrap" data-seat="${item.seat}"><div class="seat-number-wrap"><p class="seat-number">${item.seat}</p></div><input value="${inputVal}" class="seat-name-inpt" type="text" placeholder="First and Last Name" onkeypress="return (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90) || event.charCode == 32"/></div>`)
+      $(`.module3 .form-content ${appendWrap} .inputs-wrap`).append(`<div class="seat-input-wrap" data-seat="${item.seat}"><div class="seat-number-wrap"><p class="seat-number">${item.seat}</p></div><input value="${inputVal}" class="seat-name-inpt" type="text" placeholder="First and Last Name" onkeypress="return (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90) || event.charCode == 32"/></div>`)
     })
-    if($('.module2 .ga-tickets .inputs-wrap').children().length == 0) {
-      $('.module2 .ga-tickets .no-tickets').show()
-      $('.module2 .ga-tickets .inputs-wrap').hide()
+    if($('.module3 .ga-tickets .inputs-wrap').children().length == 0) {
+      $('.module3 .ga-tickets .no-tickets').show()
+      $('.module3 .ga-tickets .inputs-wrap').hide()
     } else {
-      $('.module2 .ga-tickets .no-tickets').hide()
-      $('.module2 .ga-tickets .inputs-wrap').show()
+      $('.module3 .ga-tickets .no-tickets').hide()
+      $('.module3 .ga-tickets .inputs-wrap').show()
     }
 
-    if($('.module2 .vip-tickets .inputs-wrap').children().length == 0) {
-      $('.module2 .vip-tickets .no-tickets').show()
-      $('.module2 .vip-tickets .inputs-wrap').hide()
+    if($('.module3 .vip-tickets .inputs-wrap').children().length == 0) {
+      $('.module3 .vip-tickets .no-tickets').show()
+      $('.module3 .vip-tickets .inputs-wrap').hide()
     } else {
-      $('.module2 .vip-tickets .no-tickets').hide()
-      $('.module2 .vip-tickets .inputs-wrap').show()
+      $('.module3 .vip-tickets .no-tickets').hide()
+      $('.module3 .vip-tickets .inputs-wrap').show()
     }
   }
 
-  $(document).on('input', '.module2 .seat-name-inpt',function() {
+  $(document).on('input', '.module3 .seat-name-inpt',function() {
     let inputVal = $(this).val()
     let check = true
-    $('.module2 .seat-name-inpt').each(function() {
+    $('.module3 .seat-name-inpt').each(function() {
       let valArr = $(this).val().split(" ")
       if(valArr.length >= 2) {
         if(valArr[0].length <= 0 || valArr[1].length <= 0) {
@@ -124,83 +194,59 @@ $(function() {
         return;
       }
     })
+
     if(check) {
-      $('.module2 .next-step').removeClass('disabled')
+      $('.module3 .finish-order-btn').removeClass('disabled')
     } else {
-      $('.module2 .next-step').addClass('disabled')
+      $('.module3 .finish-order-btn').addClass('disabled')
     }
   })
 
-  $('.module2 .go-back-btn').click(function() {
-    $('.module1').removeClass('hidden')
-    $('.module2').addClass('hidden')
-    $('.module2 .inputs-wrap').empty()
+  $('.module3 .go-back-btn').click(function() {
+    $('.module2').removeClass('hidden')
+    $('.module3').addClass('hidden')
+    $('.module3 .inputs-wrap').empty()
   })
 
-  $('.module1 .next-step').click(function() {
+  $('.module2 .next-step').click(function() {
     if(!$(this).hasClass('disabled')) {
-      $('.module1').addClass('hidden')
+      let data = {
+        firstName: $('.module2 .first-name-inpt').val(),
+        lastName: $('.module2 .last-name-inpt').val(),
+        email: $('.module2 .email-inpt').val(),
+        phoneNumber: $('.module2 .phone-number-inpt').val(),
+        address: {
+          addressLineOne: $('.module2 .address-line-one-inpt').val(),
+          addressLineTwo: $('.module2 .address-line-two-inpt').val(),
+          city: $('.module2 .city-inpt').val(),
+          state: $('.module2 .state-inpt').val(),
+          zipCode: $('.module2 .zip-code-inpt').val()
+        }
+      }
+      $.post({
+        url: "/api/addCustomerInformation",
+        data: data
+      })
+      $('.module2').addClass('hidden')
       orderData.seats = []
       $('.module1 .seat-wrap .selected').each(function() {
         orderData.seats.push({seat: $(this).attr('data-seat')})
       })
-      $('.module2').removeClass('hidden')
+      $('.module3').removeClass('hidden')
       appendInputs()
     }
   })
 })
 
-$(function() {
 
-  const check = () => {
-    let checkStatus = true
-    $('.module3 input').each(function() {
-      if(!$(this).hasClass('address-line-two-inpt')) {
-        if($(this).val().replace(/ /g, '')) {
-          if($(this).val().length <= 0) {
-            checkStatus = false;
-            return;
-          }
-          if($('.module3 .email-inpt').val()) {
-            if(!$('.module3 .email-inpt').val().includes("@") || !$('.module3 .email-inpt').val().includes(".")) {
-              checkStatus = false
-            }
-          }
-        } else {
-          checkStatus = false
-        }
-      }
-    })
-    if(checkStatus) {
-      $('.module3 .finish-order-btn').removeClass('disabled')
-    } else {
-      $('.module3 .finish-order-btn').addClass('disabled')
-    }
-  }
 
-  $('.module3 input').on('input', check)
 
-  $('.module3 .go-back-btn').click(function() {
-    $('.module2').removeClass('hidden')
-    $('.module3').addClass('hidden')
-  })
 
-  $('.module2 .next-step').click(function() {
-    if(!$(this).hasClass('disabled')) {
-      $('.module2').addClass('hidden')
-      orderData.tempSeats = []
-      $('.module2 .inputs-wrap .seat-name-inpt').each(function() {
-        let seat = $(this).parent().attr('data-seat')
-        let val = $(this).val()
-        let tempObj = {seat: seat, name: val}
-        orderData.tempSeats.push(tempObj)
-      })
-      orderData.seats = orderData.tempSeats
-      delete orderData.tempSeats
-      $('.module3').removeClass('hidden')
-    }
-  })
-})
+
+
+
+
+
 
 
 $(function() {
@@ -232,11 +278,6 @@ $(function() {
           zipCode: $('.zip-code-inpt').val()
         }
       }
-      $.ajax({
-        url: '/admin/createTicket',
-        type: 'post',
-        data: orderData
-      })
       $('.order-complete-page').removeClass('hidden')
       setupSuccessfulOrderPage()
     }

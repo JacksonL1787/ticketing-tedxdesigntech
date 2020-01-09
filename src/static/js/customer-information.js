@@ -30,11 +30,11 @@ const setCustomerInformation = () => {
     $('.last-name-inpt').val(window.customerData.lastName)
     $('.email-inpt').val(window.customerData.email)
     $('.phone-number-inpt').val(window.customerData.phoneNumber)
-    $('.address-line-one-inpt').val(window.customerData.address.addressLineOne)
-    $('.address-line-two-inpt').val(window.customerData.address.addressLineTwo)
-    $('.city-inpt').val(window.customerData.address.city)
-    $('.state-inpt').val(window.customerData.address.state)
-    $('.zip-code-inpt').val(window.customerData.address.zipCode)
+    $('.address-line-one-inpt').val(window.customerData.addressLineOne)
+    $('.address-line-two-inpt').val(window.customerData.addressLineTwo)
+    $('.city-inpt').val(window.customerData.city)
+    $('.state-inpt').val(window.customerData.state)
+    $('.zip-code-inpt').val(window.customerData.zipCode)
     check()
   }
 }
@@ -58,10 +58,10 @@ $('.next-step').click(function() {
     }
 
     $.post({
-      url: "/addCustomerInformation",
+      url: "/api/addCustomerInformation",
       data: data,
       success: function() {
-        window.location.href="/seats/checkout"
+        window.location.href="/seats/information"
       }
     })
   }
@@ -72,5 +72,5 @@ $(document).ready(function() {
 })
 
 $('.go-back-btn').click(() => {
-  window.location.href="/seats/information"
+  window.location.href="/seats/selection"
 })

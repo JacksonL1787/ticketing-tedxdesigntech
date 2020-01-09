@@ -1,8 +1,7 @@
 script.
   let rawOrders = "#{orders}"
-  let rawPrices = "#{prices}"
-  window.orders = JSON.parse(rawOrders.replace(/&quot;/g, '"'))
-  window.seatPrices = JSON.parse(rawPrices.replace(/&quot;/g, '"'))
+  if(rawOrders) window.orders = JSON.parse(rawOrders.replace(/&quot;/g, '"'))
+  
 
 .dashboard-lower-content
   .flex-wrap-seat-data
@@ -39,11 +38,11 @@ script.
       .ga-revenue-widget.info-widget
         .text-wrap
           h2.info 
-          p.desc GA Seats Revenue (Not Including Fees)
+          p.desc GA Seats Revenue
       .vip-revenue-widget.info-widget
         .text-wrap
           h2.info 
-          p.desc VIP Seats Revenue (Not Including Fees)
+          p.desc VIP Seats Revenue
       .number-of-orders-widget.info-widget
         .text-wrap
           h2.info 
@@ -51,7 +50,7 @@ script.
       .this-weeks-earnings-widget.info-widget
         .text-wrap
           h2.info 
-          p.desc This Week's Revenue (Including Fees)
+          p.desc This Week's Revenue
 
   .recent-orders
     h2.widget-title Recent Orders
@@ -65,27 +64,28 @@ script.
             th.seats-head Seats
             th.action-head Action
         tbody
+    p.no-recent-orders No Orders
 
-  .seat-prices-widget
-    h2.widget-title Prices
-    p.widget-overview Adjust the prices of seats and fees.
-    .price-wrap.ga-seat-price
-      p.desc GA Seats
-      .input-wrap
-        button.minus-btn -
-        input.price-inpt(type="number" onkeypress="return event.charCode >= 46 && event.charCode <= 57")
-        button.add-btn +
-    .price-wrap.vip-seat-price
-      p.desc VIP Seats
-      .input-wrap
-        button.minus-btn -
-        input.price-inpt(type="number" onkeypress="return event.charCode >= 46 && event.charCode <= 57")
-        button.add-btn +
-    .price-wrap.fees-price
-      p.desc Seat Fees
-      .input-wrap
-        button.minus-btn -
-        input.price-inpt(type="number" onkeypress="return event.charCode >= 46 && event.charCode <= 57")
-        button.add-btn +
-    button.update-prices Update Prices
+  //- .seat-prices-widget
+  //-   h2.widget-title Prices
+  //-   p.widget-overview Adjust the prices of seats and fees.
+  //-   .price-wrap.ga-seat-price
+  //-     p.desc GA Seats
+  //-     .input-wrap
+  //-       button.minus-btn -
+  //-       input.price-inpt(type="number" onkeypress="return event.charCode >= 46 && event.charCode <= 57")
+  //-       button.add-btn +
+  //-   .price-wrap.vip-seat-price
+  //-     p.desc VIP Seats
+  //-     .input-wrap
+  //-       button.minus-btn -
+  //-       input.price-inpt(type="number" onkeypress="return event.charCode >= 46 && event.charCode <= 57")
+  //-       button.add-btn +
+  //-   .price-wrap.fees-price
+  //-     p.desc Seat Fees
+  //-     .input-wrap
+  //-       button.minus-btn -
+  //-       input.price-inpt(type="number" onkeypress="return event.charCode >= 46 && event.charCode <= 57")
+  //-       button.add-btn +
+  //-   button.update-prices Update Prices
         

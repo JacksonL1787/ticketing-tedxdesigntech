@@ -1,24 +1,18 @@
 "use strict";
 
-var vipRows = ['A', 'B', 'C'];
-
 var appendInputs = function appendInputs() {
-  var seats = window.seatData.seats;
+  var seats = window.seatData;
   seats.forEach(function (item) {
+    console.log(item);
     var inputVal = '';
 
-    if (item.name) {
-      inputVal = item.name;
+    if (item.attendee_name) {
+      inputVal = item.attendee_name;
       $('.next-step').removeClass('disabled');
     }
 
-    var appendWrap = '.ga-tickets';
-
-    if (vipRows.includes(item.seat[item.seat.length - 1])) {
-      appendWrap = '.vip-tickets';
-    }
-
-    $(".form-content ".concat(appendWrap, " .inputs-wrap")).append("<div class=\"seat-input-wrap\" data-seat=\"".concat(item.seat, "\"><div class=\"seat-number-wrap\"><p class=\"seat-number\">").concat(item.seat, "</p></div><input value=\"").concat(inputVal, "\" class=\"seat-name-inpt\" type=\"text\" placeholder=\"First and Last Name\" onkeypress=\"return (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90) || event.charCode == 32\"/></div>"));
+    var appendWrap = item.type == "VIP" ? '.vip-tickets' : '.ga-tickets';
+    $(".form-content ".concat(appendWrap, " .inputs-wrap")).append("<div class=\"seat-input-wrap\" data-seat-id=\"".concat(item.seat_id, "\" data-seat=\"").concat(item.name, "\"><div class=\"seat-number-wrap\"><p class=\"seat-number\">").concat(item.name, "</p></div><input value=\"").concat(inputVal, "\" class=\"seat-name-inpt\" type=\"text\" placeholder=\"First and Last Name\" onkeypress=\"return (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90) || event.charCode == 32\"/></div>"));
   });
 
   if ($('.ga-tickets .inputs-wrap').children().length == 0) {
@@ -33,7 +27,7 @@ var appendInputs = function appendInputs() {
 };
 
 $('.go-back-btn').click(function () {
-  window.location.href = "/seats/selection";
+  window.location.href = "/customer/information";
 });
 $(document).on('input', '.seat-name-inpt', function () {
   var inputVal = $(this).val();
@@ -66,17 +60,19 @@ $('.next-step').click(function () {
     $('.seat-name-inpt').each(function () {
       var seat = $(this).parent().attr('data-seat');
       var val = $(this).val();
+      var seatId = $(this).parent().attr('data-seat-id');
       var tempObj = {
-        seat: seat,
-        name: val
+        attendee_name: val,
+        id: seatId
       };
       data.seats.push(tempObj);
     });
+    console.log(data);
     $.post({
-      url: "/seatNames",
+      url: "/api/addAttendeeNames",
       data: data,
       success: function success() {
-        window.location.href = "/customer/information";
+        window.location.href = "/seats/checkout";
       }
     });
   }

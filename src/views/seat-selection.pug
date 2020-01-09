@@ -8,16 +8,13 @@ html
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
   body
     script.
-      const rawSeatData = "#{seatData}"
+      const rawUserSeats = "#{userSeats}"
       const rawTakenSeats = "#{takenSeats}"
       const rawSeatPrices = "#{seatPrices}"
+      if(rawTakenSeats) window.takenSeats = JSON.parse(rawTakenSeats.replace(/&quot;/g, '"'))
+      if(rawUserSeats) window.userSeats = JSON.parse(rawUserSeats.replace(/&quot;/g, '"'))
       window.seatPrices = JSON.parse(rawSeatPrices.replace(/&quot;/g, '"'))
-      if(rawTakenSeats) {
-        window.takenSeats = JSON.parse(rawTakenSeats.replace(/&quot;/g, '"'))
-      }
-      if(rawSeatData) {
-        window.seatData = JSON.parse(rawSeatData.replace(/&quot;/g, '"'))
-      }
+      
       
     .top
       h1.page-title Seat Selection
@@ -44,7 +41,7 @@ html
         .stage
           .fade
           h2.title Stage
-        .seat-wrap
+        #main-seats.seat-wrap
     
       .overview-wrap
         .overview-content-wrap

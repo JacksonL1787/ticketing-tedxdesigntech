@@ -6,7 +6,6 @@
   justify-content center
   margin-bottom 15px
 
-.notes-info-widget,
 .previous-changes-widget
   max-height 400px
   padding 20px 0
@@ -26,7 +25,7 @@
 .customer-info-widget,
 .seat-info-widget,
 .cart-info-widget,
-.payment-info-widget
+.notes-info-widget
   width 450px
   border-radius .3em
   background #161a1d
@@ -40,11 +39,10 @@
     margin 0
 
 .cart-info-widget,
-.payment-info-widget
+.notes-info-widget
   height 500px
 
-.customer-info-widget,
-.seat-info-widget
+.customer-info-widget
   height 520px
 
 .customer-info-widget
@@ -358,12 +356,29 @@
 
 .notes-info-widget
   position relative
-  .no-notes
-    color grey
-    margin 30px 0
-    text-align center
+  .note-status-loader
+    position absolute
+    top 20px
+    right 27.5px
+    background-image url('/img/dashboard/loader.svg')
+    background-size contain
+    background-position center
+    background-repeat no-repeat
+    height 22.5px
+    width 22.5px
     display none
-    font-size 16px
+    &.show
+      display block
+  .note-status-updated
+    position absolute
+    top 23px
+    right 20px
+    color rgb(204, 204, 204)
+    font-size 13px
+    margin 0
+    display none
+    &.show
+      display block
   .note
     color lightgrey
     width calc(80% - 20px)
@@ -371,29 +386,12 @@
     display block
     outline none
     padding 10px
-    height 175px
+    height 420px
     background transparent
     font-size 17px
     resize none
     border 1px solid transparent
-    &:hover
+    &:hover,
+    &:focus,
+    &:active
       border 1px solid rgba(255,255,255,0.1)
-  .update-note-btn
-    background red
-    padding 10px 25px
-    border-radius 10000px
-    border none
-    color white
-    font-size 14px
-    font-weight 700
-    letter-spacing 0.2px
-    display block
-    cursor pointer
-    border-radius .3em
-    margin 10px auto 0
-    transition background .3s
-    &.disabled
-      background #717171 !important
-      cursor not-allowed !important
-    &:hover
-      background #db0000

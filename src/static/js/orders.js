@@ -10,32 +10,32 @@ let checkIfOrders = () => {
 $(function() {
   $(document).ready(function() {
     window.orders.forEach(function(item, index) {
-      item = window.orders[(window.orders.length - 1) - index]
       console.log(item)
       let seatsHTML = ''
       item.seats.forEach(function(seatItem) {
-        seatsHTML+=`<p class="pill">${seatItem.seat}</p>`
+        seatsHTML+=`<p class="pill">${seatItem.name}</p>`
       })
+      item.payment_amount = parseFloat(item.payment_amount)
       $('.orders-table table tbody').append(`
         <tr class="order">
           <td>
-            <p class="order-id-info">${item.orderID}</p>
+            <p class="order-id-info">${item.order_code}</p>
           </td>
 
           <td>
-            <p class="customer-name-info">${item.customerInformation.firstName} ${item.customerInformation.lastName}</p>
+            <p class="customer-name-info">${item.first_name} ${item.last_name}</p>
           </td>
 
           <td>
-            <p class="customer-email-info">${item.customerInformation.email}</p>
+            <p class="customer-email-info">${item.email}</p>
           </td>
 
           <td>
-            <p class="date-info" data-time="${item.time}">${moment(item.time).format('MMM DD, YYYY')}</p>
+            <p class="date-info" data-time="${item.timestamp}">${moment(item.timestamp).format('MMM DD, YYYY')}</p>
           </td>
 
           <td>
-            <p class="price-info">${item.prices.total == 0 ? 'Free' : '$' + item.prices.total.toFixed(2)}</p>
+            <p class="price-info">${item.payment_amount == 0 ? 'Free' : '$' + item.payment_amount.toFixed(2)}</p>
           </td>
 
           <td>
@@ -43,7 +43,7 @@ $(function() {
           </td>
 
           <td>
-            <div class="action-btn" data-order-id="${item.orderID}">
+            <div class="action-btn" data-order-id="${item.order_id}">
               <div class="icon"></div>
             </div>
           </td>

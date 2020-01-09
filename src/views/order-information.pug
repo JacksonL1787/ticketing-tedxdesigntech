@@ -1,0 +1,68 @@
+doctype html
+html
+	head
+		title Seat Selection
+		meta(name="viewport" content="width=device-width, initial-scale=1.0")
+		link(rel="stylesheet" href="/css/order-information.css")
+		link(rel="stylesheet" href="/css/main.css")
+		script(src="https://momentjs.com/downloads/moment.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+		script.
+			const rawOrder = "#{order}"
+			if(rawOrder) {
+				window.order = JSON.parse(rawOrder.replace(/&quot;/g, '"'))
+			}
+	body
+		.top
+			h1.page-title
+			p.desc If you have any questions regarding your order please contact us at <a href="mailto:support@tedxdesigntech.com">support@tedxdesigntech.com</a>
+		.not-valid-wrap
+			h2.title Not a Valid Order
+			p.desc Make sure to check that you are using the correct order code that you recieved in your email. If this problem continues, please don't hesitate to contact us at <a href="mailto:support@tedxdesigntech.com">support@tedxdesigntech.com</a>
+		.layout
+			.widget-flex-wrap
+				.basic-info-widget.widget
+					h1.widget-title Order Information
+					.info-wrap-container
+						.order-code-wrap.info-wrap
+							label Order Code
+							h1.order-code 
+						.order-time-wrap.info-wrap
+							label Time of Purcahse
+							h1.time-of-purchase
+				.customer-details-widget.widget
+					h1.widget-title Customer Details
+					.details-container.flex-wrap
+						.detail-wrap
+							label First Name
+							p.first-name
+						.detail-wrap
+							label Last Name
+							p.last-name
+						.detail-wrap
+							label Email
+							p.email
+						.detail-wrap
+							label Phone Number
+							p.phone-number
+						.detail-wrap
+							label Address Line One
+							p.address-line-one
+						.detail-wrap
+							label Address Line Two
+							p.address-line-two
+						.detail-wrap
+							label City
+							p.city
+						.detail-wrap
+							label State
+							p.state
+						.detail-wrap
+							label Zip Code
+							p.zip-code
+			.widget-flex-wrap
+				.seat-info-payment-widget.widget
+					h1.widget-title Seat Info
+				.shipping-status-widget.widget
+					h1.widget-title Shipping Status
+		script(src="/js/order-information.js")

@@ -11,13 +11,13 @@ var checkIfOrders = function checkIfOrders() {
 $(function () {
   $(document).ready(function () {
     window.orders.forEach(function (item, index) {
-      item = window.orders[window.orders.length - 1 - index];
       console.log(item);
       var seatsHTML = '';
       item.seats.forEach(function (seatItem) {
-        seatsHTML += "<p class=\"pill\">".concat(seatItem.seat, "</p>");
+        seatsHTML += "<p class=\"pill\">".concat(seatItem.name, "</p>");
       });
-      $('.orders-table table tbody').append("\n        <tr class=\"order\">\n          <td>\n            <p class=\"order-id-info\">".concat(item.orderID, "</p>\n          </td>\n\n          <td>\n            <p class=\"customer-name-info\">").concat(item.customerInformation.firstName, " ").concat(item.customerInformation.lastName, "</p>\n          </td>\n\n          <td>\n            <p class=\"customer-email-info\">").concat(item.customerInformation.email, "</p>\n          </td>\n\n          <td>\n            <p class=\"date-info\" data-time=\"").concat(item.time, "\">").concat(moment(item.time).format('MMM DD, YYYY'), "</p>\n          </td>\n\n          <td>\n            <p class=\"price-info\">").concat(item.prices.total == 0 ? 'Free' : '$' + item.prices.total.toFixed(2), "</p>\n          </td>\n\n          <td>\n            <div class=\"pill-flex-wrap\">").concat(seatsHTML, "\n          </td>\n\n          <td>\n            <div class=\"action-btn\" data-order-id=\"").concat(item.orderID, "\">\n              <div class=\"icon\"></div>\n            </div>\n          </td>\n        </tr>"));
+      item.payment_amount = parseFloat(item.payment_amount);
+      $('.orders-table table tbody').append("\n        <tr class=\"order\">\n          <td>\n            <p class=\"order-id-info\">".concat(item.order_code, "</p>\n          </td>\n\n          <td>\n            <p class=\"customer-name-info\">").concat(item.first_name, " ").concat(item.last_name, "</p>\n          </td>\n\n          <td>\n            <p class=\"customer-email-info\">").concat(item.email, "</p>\n          </td>\n\n          <td>\n            <p class=\"date-info\" data-time=\"").concat(item.timestamp, "\">").concat(moment(item.timestamp).format('MMM DD, YYYY'), "</p>\n          </td>\n\n          <td>\n            <p class=\"price-info\">").concat(item.payment_amount == 0 ? 'Free' : '$' + item.payment_amount.toFixed(2), "</p>\n          </td>\n\n          <td>\n            <div class=\"pill-flex-wrap\">").concat(seatsHTML, "\n          </td>\n\n          <td>\n            <div class=\"action-btn\" data-order-id=\"").concat(item.order_id, "\">\n              <div class=\"icon\"></div>\n            </div>\n          </td>\n        </tr>"));
     });
     checkIfOrders();
   });

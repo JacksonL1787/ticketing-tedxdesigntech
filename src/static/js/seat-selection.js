@@ -9,7 +9,6 @@ let rowNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
 
 const createSeats = () => {
   for(var i = 1; i <= rowNames.length;i++) {
-    console.log(i)
     let column1 = [],
         column2 = []
     for(var a = 1; a <= seatsPerRow;a++) {
@@ -25,12 +24,15 @@ const createSeats = () => {
 }
 
 const markTakenSeats = () => {
-  if(window.takenSeats) {
-    window.takenSeats.forEach(function(item) {
-      $(`.seat-wrap .seat[data-seat="${item}"]`).addClass('taken').removeClass('available')
-    })
-  }
+  window.takenSeats.forEach((s, i) => {
+    if(!$(`.seat-wrap .seat[data-seat="${s.name}"]`).hasClass('selected')) {
+      $(`.outer-seat-wrap .seat-wrap .seat[data-seat="${s.name}"]`)
+        .addClass('taken')
+        .removeClass('available')
+    }
+  })
 }
+
 
 const setPrice = (change) => {
   overview.price += change
@@ -94,20 +96,20 @@ const removeSeat = (seat) => {
 }
 
 const selectCurrentSeats = () => {
-  if(window.seatData) {
-    window.seatData.seats.forEach(function(item) {
+  if(window.userSeats) {
+    window.userSeats.forEach(function(item) {
       let newDiv = document.createElement('div')
-      newDiv.setAttribute('data-seat', item.seat)
-      if(vipRows.includes(item.seat[item.seat.length - 1])) {
+      newDiv.setAttribute('data-seat', item.name)
+      if(item.type === "VIP") {
         newDiv.setAttribute('class', 'vip-seat')
       }
-      $(`.seat-wrap .seat[data-seat="${item.seat}"]`).addClass('selected')
+      $(`.seat-wrap .seat[data-seat="${item.name}"]`).addClass('selected')
       selectSeat($(newDiv))
     })
   }
 }
 
-$(document).on('click', '.seat', function() {
+$(document).on('click', '#main-seats.seat-wrap .seat', function() {
   if(!$(this).hasClass('taken')) {
     if($(this).hasClass('selected')) {
       $(this).removeClass('selected')
@@ -130,9 +132,13 @@ $('.next-step').click(function() {
     let data = {
       seats: overview.seats
     }
+    console.log(data)
     $.post({
-      url: "/createOrder",
-      data: data
+      url: "/api/createOrder",
+      data: data,
+      success: function(data) {
+        window.location.href="/customer/information"
+      }
     })
   }
 })

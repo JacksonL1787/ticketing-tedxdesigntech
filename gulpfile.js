@@ -4,6 +4,7 @@ const babel = require('gulp-babel');
 const sourcemaps = require('gulp-sourcemaps');
 const nodemon = require('gulp-nodemon')
 const del = require('del');
+const env = require('dotenv').config();
 const isDev = process.env.NODE_ENV === 'development'
 
 gulp.task('clean', () => del('./bin/**/*'))

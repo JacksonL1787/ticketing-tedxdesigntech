@@ -10,7 +10,6 @@ var rowNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
 
 var createSeats = function createSeats() {
   for (var i = 1; i <= rowNames.length; i++) {
-    console.log(i);
     var column1 = [],
         column2 = [];
 
@@ -29,11 +28,11 @@ var createSeats = function createSeats() {
 };
 
 var markTakenSeats = function markTakenSeats() {
-  if (window.takenSeats) {
-    window.takenSeats.forEach(function (item) {
-      $(".seat-wrap .seat[data-seat=\"".concat(item, "\"]")).addClass('taken').removeClass('available');
-    });
-  }
+  window.takenSeats.forEach(function (s, i) {
+    if (!$(".seat-wrap .seat[data-seat=\"".concat(s.name, "\"]")).hasClass('selected')) {
+      $(".outer-seat-wrap .seat-wrap .seat[data-seat=\"".concat(s.name, "\"]")).addClass('taken').removeClass('available');
+    }
+  });
 };
 
 var setPrice = function setPrice(change) {
@@ -102,22 +101,22 @@ var removeSeat = function removeSeat(seat) {
 };
 
 var selectCurrentSeats = function selectCurrentSeats() {
-  if (window.seatData) {
-    window.seatData.seats.forEach(function (item) {
+  if (window.userSeats) {
+    window.userSeats.forEach(function (item) {
       var newDiv = document.createElement('div');
-      newDiv.setAttribute('data-seat', item.seat);
+      newDiv.setAttribute('data-seat', item.name);
 
-      if (vipRows.includes(item.seat[item.seat.length - 1])) {
+      if (item.type === "VIP") {
         newDiv.setAttribute('class', 'vip-seat');
       }
 
-      $(".seat-wrap .seat[data-seat=\"".concat(item.seat, "\"]")).addClass('selected');
+      $(".seat-wrap .seat[data-seat=\"".concat(item.name, "\"]")).addClass('selected');
       selectSeat($(newDiv));
     });
   }
 };
 
-$(document).on('click', '.seat', function () {
+$(document).on('click', '#main-seats.seat-wrap .seat', function () {
   if (!$(this).hasClass('taken')) {
     if ($(this).hasClass('selected')) {
       $(this).removeClass('selected');
@@ -138,9 +137,13 @@ $('.next-step').click(function () {
     var data = {
       seats: overview.seats
     };
+    console.log(data);
     $.post({
-      url: "/createOrder",
-      data: data
+      url: "/api/createOrder",
+      data: data,
+      success: function success(data) {
+        window.location.href = "/customer/information";
+      }
     });
   }
 });
