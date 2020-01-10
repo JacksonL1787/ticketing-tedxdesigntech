@@ -24,7 +24,6 @@ module.exports = async(data) => {
         order_id: data.order_id
     }));
   })
-  console.log(queries[0]._single)
   Promise.all(queries)
     .catch(trx.rollback)
 
@@ -33,8 +32,7 @@ module.exports = async(data) => {
     data.seats.forEach((seat) => {
       paymentAmount += parseFloat(seat.price) + parseFloat(seat.fee)
     })
-    console.log(paymentAmount)
-    await trx(tables.payment)
+    await trx(tables.payments)
       .insert({
         order_id: data.order_id,
         amount: paymentAmount
@@ -42,6 +40,17 @@ module.exports = async(data) => {
   } catch(e) {
     await trx.rollback()
     throw new Error ('Failed to add payment information.')
+  }
+
+  try {
+    await trx(tables.shipments)
+      .insert({
+        order_id: data.order_id,
+        status: false
+      })
+  } catch(e) {
+    await trx.rollback()
+    throw new Error ('Failed to add shipment information')
   }
 
   try { // Delete Session Row in sessions table

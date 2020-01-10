@@ -18,19 +18,21 @@ html
     .content
       .basic-info-form
         h2.section-title Information
-        p.section-info This information is used to mail you your ticket for the day of the event.
+        p.section-info A <b>*</b> means that the input field is required.
         .form-wrap
           .dual-input-wrap
-            input.first-name-inpt(type="text" placeholder="First Name")
-            input.last-name-inpt(type="text" placeholder="Last Name")
-          input.email-inpt(type="text" placeholder="Email")
-          input.phone-number-inpt(type="text" placeholder="Phone Number")
-          input.address-line-one-inpt(type="text" placeholder="Address Line 1")
+            input.first-name-inpt(type="text" placeholder="First Name*")
+            input.last-name-inpt(type="text" placeholder="Last Name*")
+          input.email-inpt(type="text" placeholder="Email*")
+          input.phone-number-inpt(type="text" placeholder="Phone Number*")
+          h2.subtitle Shipping Address
+          p.subtitle-desc This information is used to mail you your tickets for the day of the event.
+          input.address-line-one-inpt(type="text" placeholder="Address Line 1*")
           input.address-line-two-inpt(type="text" placeholder="Address Line 2")
           .dual-input-wrap
-            input.city-inpt(type="text" placeholder="City")
-            input.state-inpt(type="text" placeholder="State")
-          input.zip-code-inpt(type="text" placeholder="Zip Code")
+            input.city-inpt(type="text" placeholder="City*")
+            input.state-inpt(type="text" placeholder="State*")
+          input.zip-code-inpt(type="text" placeholder="Zip Code*")
           .next-step.disabled
             p Continue
             .arrow

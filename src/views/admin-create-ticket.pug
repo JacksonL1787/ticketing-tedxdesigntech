@@ -13,9 +13,10 @@ html
         window.takenSeats = JSON.parse(rawTakenSeats.replace(/&quot;/g, '"'))
       }
     .top-tag-wrap.show
-      p.tag-text Create Free Tickets
+      p.tag-text Create Free Tickets. Don't reload or close the page. Click the "Cancel Order" button if you want to exit the order.
     .module1
       .top
+        button.cancel-btn Cancel Order
         h1.page-title Seat Selection
       .layout
         .outer-seat-wrap
@@ -93,6 +94,6 @@ html
         .checkmark-wrap
           .icon
         h1.title  Order Complete!
-        p.info Thank you, your order has been processed successfully. Information regarding your order has been sent to you via email. See you at our TEDx Event!
+        p.info
       p.notify-redirect This page will automatically close in <span class="count">15</span> seconds.
     script(src="/js/admin-create-ticket.js")

@@ -21,10 +21,14 @@ module.exports = async (id) => {
         `${tables.orders}.timestamp as timestamp`,
         `${tables.orders}.id as order_id`,
         `${tables.orders}.note as order_note`,
-        `${tables.payment}.amount as payment_amount`)
+        `${tables.payments}.amount as payment_amount`,
+        `${tables.shipments}.status as shipment_status`,
+        `${tables.shipments}.tracking_number as shipment_tracking_number`,
+        `${tables.shipments}.not_shipping as not_shipping`)
       .from(tables.orders)
       .join(tables.customers, `${tables.customers}.order_id`, '=', `${tables.orders}.id`)
-      .join(tables.payment, `${tables.payment}.order_id`, '=', `${tables.orders}.id`)
+      .join(tables.payments, `${tables.payments}.order_id`, '=', `${tables.orders}.id`)
+      .join(tables.shipments, `${tables.shipments}.order_id`, '=', `${tables.orders}.id`)
       .orderByRaw('timestamp DESC')
       .where(`${tables.orders}.status`, 4)
       .where(`${tables.orders}.id`, id)

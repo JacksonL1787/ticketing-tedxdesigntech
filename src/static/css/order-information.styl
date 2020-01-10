@@ -9,13 +9,16 @@
     font-weight 500
     letter-spacing 1px
     margin 0
+.top,
+.not-valid-wrap
   p.desc
-    color lightgrey
-    margin 5px auto
-    display block
-    width 450px
+    color #b9b9b9
+    font-size 14px
+    letter-spacing 0.3px
+    line-height 130%
+    width 400px
     text-align center
-    font-weight 300
+    margin 5px auto 20px
     a
       color red
       text-decoration none
@@ -33,18 +36,7 @@
     letter-spacing 0.5px
     text-transform uppercase
   p.desc
-    color #b9b9b9
-    font-size 14px
-    letter-spacing 0.3px
-    line-height 130%
-    width 650px
-    text-align center
-    margin 5px auto 0
-    a
-      color red
-      text-decoration none
-      &:hover
-        text-decoration underline
+    width 525px !important
 .layout
   display none
   .widget-flex-wrap
@@ -116,3 +108,141 @@
             color white
             font-size 15px
             word-wrap break-word
+  .seat-info-widget
+    .seats-wrap
+      width 90%
+      margin 20px auto 0
+      position relative
+      height 316px
+      overflow-y scroll
+      .seat-wrap
+        display flex
+        justify-content left
+        position relative
+        height fit-content
+        width 90%
+        margin 0 auto
+        padding 15px 0
+        margin-bottom 10px
+        .seat
+          width 27.5px
+          height 27.5px
+          border-radius .2em
+          position relative
+          background red
+          margin-right 15px
+          margin-top 5px
+          .icon
+            width 15px
+            height 15px
+            position absolute
+            top 50%
+            left 50%
+            transform translate(-50%, -50%)
+            background-image url('/img/star.svg')
+            background-size cover
+            background-position top
+            background-repeat no-repeat
+        .seat-info
+          .seat-number
+            color white
+            margin 0
+            font-weight 600
+            font-size 16px
+            margin-bottom 5px
+          .seat-status
+            color lightgrey
+            margin 0 0 5px
+            font-size 15px
+            font-weight 100
+          .seat-name
+            color grey
+            margin 0
+            font-size 13px
+        .seat-price
+          position absolute
+          right 0
+          margin 0
+          color lightgrey
+          font-weight 900
+          top 50%
+          transform translateY(-50%)
+    .total-wrap
+      width 90%
+      margin-left 5%
+      height fit-content
+      padding 30px 0
+      border-top 1px solid #32333e
+      .charges
+        width 90%
+        margin-left 5%
+        .flex-wrap
+          display flex
+          justify-content space-between
+          margin-bottom 15px
+          p
+            margin 0
+          p.title
+            font-size 16px
+            color lightgrey
+            font-weight bold
+          p.charge
+            font-size 16px
+            color lightgrey
+        h2.total-price
+          color white
+          text-align center
+          font-weight 900
+          margin 20px 0 0
+  .shipping-status-widget
+    height fit-content !important
+    padding-bottom 25px
+    .shipment-status
+      display none
+    p.not-shipped
+      width 330px !important
+    p.not-shipped,
+    p.shipping-status-text
+      color #b9b9b9
+      font-size 15px
+      letter-spacing 0.3px
+      width 95%
+      line-height 130%
+      text-align center
+      margin 5px auto 0
+      a
+        color red
+        text-decoration none
+        &:hover
+          text-decoration underline
+    .shipping-cancelled-wrap
+      .icon
+        margin 40px auto
+        width 90px
+        height 90px
+        background-image url('/img/cancel.svg')
+        background-size cover
+        background-position center
+        background-repeat no-repeat
+    .tickets-shipping-wrap
+      .icon
+        margin 40px auto 20px
+        width 90px
+        height 100px
+        background-image url('/img/checkmark_green.svg')
+        background-size cover
+        background-position center
+        background-repeat no-repeat
+      .track-tickets-btn
+        background red
+        border-radius .3em
+        border none
+        outline none
+        cursor pointer
+        color white
+        font-size 17px
+        padding 12px 25px
+        font-weight bold
+        letter-spacing 0.5px
+        display block
+        margin 20px auto 0

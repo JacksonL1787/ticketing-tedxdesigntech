@@ -4,10 +4,6 @@ const randomstring = require('randomstring')
 const getTakenSeats = require('../seats/getTakenSeats')
 
 module.exports = async(seats) => {
-  const sessionString = randomstring.generate({
-    length: 64
-  })
-  //database transaction - allows you make consistent reads and writes
   const trx = await writer.transaction()
 
   let takenSeats = [];
@@ -16,6 +12,7 @@ module.exports = async(seats) => {
   } catch(e) {
     return e;
   }
+
   if(takenSeats.length > 0) {
     await trx.rollback()
     throw new Error(`One or more of the requested seats is taken: ${takenSeats.join(', ')}`);
@@ -34,10 +31,6 @@ module.exports = async(seats) => {
   }
 
   try {
-    await trx(tables.sessions)
-      .insert({
-        session_string: sessionString,
-        order_id: orderId});
     const st = await trx(tables.seatsReservations)
       .insert(seats.map(s => ({
         order_id: orderId,
@@ -52,5 +45,5 @@ module.exports = async(seats) => {
   }
 
   await trx.commit()
-  return {id: orderId, sessionString: sessionString}
+  return orderId
 }

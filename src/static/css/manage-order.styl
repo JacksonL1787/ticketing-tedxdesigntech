@@ -1,3 +1,41 @@
+.confirm-message-container
+  position fixed
+  top 10px
+  left calc(50% + 150px)
+  transform translateX(-50%)
+  z-index 10000
+  .message-wrap
+    height fit-content
+    width fit-content
+    padding 10px 20px 10px 15px
+    max-width 350px
+    margin 0 auto 5px
+    opacity 0
+    background #161A1D
+    border-radius .3em
+    border 1px solid #32333e
+    box-shadow 0 2px 12px 2px rgba(0,0,0,0.2)
+    animation fadeMessage 5s
+    .content
+      position relative
+      display flex
+      justify-content left
+      align-items center
+      .icon
+        width 20px
+        height 23px
+        background-image url('/img/checkmark_green.svg')
+        background-size cover
+        background-position center
+        background-repeat no-repeat
+        margin-right 10px
+        margin-top 5px
+      p.message
+        color white
+        margin 0
+        font-size 14px
+        width fit-content
+
 .info-flex-wrap
   margin-top 40px
 
@@ -21,6 +59,93 @@
     text-align center
     margin 0
 
+.shipping-status-widget
+  width 915px
+  border-radius .3em
+  background #161a1d
+  padding 20px 0
+  margin 0 auto 30px
+  overflow-y auto
+  overflow-x hidden
+  &.shipped
+    width 400px
+    margin 0 auto 30px
+    .widget-title,
+    .widget-desc
+      text-align center !important
+    .widget-desc
+      margin-bottom 15px !important
+  .shipping-status-info-wrap
+    display none
+  .deactivate-shipping-btn,
+  .activate-shipping-btn,
+  .track-package-btn
+    background red
+    color white
+    padding 10px 20px
+    outline none
+    border none
+    margin 15px auto 0
+    display block
+    cursor pointer
+    font-size 15px
+    border-radius .3em
+    transition background .3s
+    &:hover
+      background #db0000
+  p.deactivate-shipping-details,
+  p.activate-shipping-details
+    color grey
+    font-size 13px
+    text-align center
+    display block
+    margin 10px auto 0
+    width 500px
+  .content
+    width calc(100% - 60px)
+    margin-left 30px
+    .widget-title
+      color lightgrey
+      font-size 25px
+      margin 0
+    .widget-desc
+      color grey
+      margin 5px 0 0
+      font-size 14px
+    .insert-tracking-number-wrap
+      width 100%
+      margin-top 20px
+      display flex
+      align-items center
+      justify-content left
+      .tracking-number-inpt
+        padding 12px 0 12px 20px
+        color white
+        outline none
+        flex-grow 1
+        background rgba(0,0,0,0.12)
+        border 1px solid #23242b
+        border-right none !important
+        border-top-left-radius .3em
+        border-bottom-left-radius .3em
+        color white
+        font-size 16px
+      .confirm-tracking-number
+        background red
+        border 1px solid red
+        color white
+        font-size 16px
+        border-top-right-radius .3em
+        border-bottom-right-radius .3em
+        padding 12px 20px
+        cursor pointer
+        transition background .3s, border .3s
+        &:hover
+          background #db0000
+        &.disabled
+          background #717171 !important
+          border-color #717171 !important
+          cursor not-allowed !important
 
 .customer-info-widget,
 .seat-info-widget,
@@ -395,3 +520,15 @@
     &:focus,
     &:active
       border 1px solid rgba(255,255,255,0.1)
+
+@keyframes fadeMessage
+  0%
+    opacity 0
+    margin-top -15px
+  10%
+    opacity 1
+    margin-top 0
+  93%
+    opacity 1
+  100%
+    opacity 0

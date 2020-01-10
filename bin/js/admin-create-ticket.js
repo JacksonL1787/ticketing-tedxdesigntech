@@ -65,6 +65,21 @@ $(function () {
     }
   };
 
+  $('.module1 .cancel-btn').click(function () {
+    if (orderData.orderId) {
+      $.post({
+        url: '/admin/api/cancelOrder',
+        data: {
+          orderId: orderData.orderId
+        },
+        success: function success() {
+          window.close();
+        }
+      });
+    } else {
+      window.close();
+    }
+  });
   $(document).on('click', '.module1 .seat-wrap .seat', function () {
     if (!$(this).hasClass('taken')) {
       if ($(this).hasClass('selected')) {
@@ -128,14 +143,18 @@ $(function () {
       $('.module1').addClass('hidden');
       $('.module2').removeClass('hidden');
       var data = {
-        seats: []
+        seats: [],
+        orderId: orderData.orderId
       };
       $('.module1 .seat-wrap .seat.selected').each(function () {
         data.seats.push($(this).data('seat'));
       });
       $.post({
-        url: "/api/createOrder",
-        data: data
+        url: "/admin/api/beginOrder",
+        data: data,
+        success: function success(result) {
+          orderData.orderId = result.orderId;
+        }
       });
     }
   });
@@ -161,7 +180,7 @@ $(function () {
 
       var appendWrap = '.ga-tickets';
 
-      if (vipRows.includes(item.seat[item.seat.length - 1])) {
+      if (vipRows.includes(item.seat[0])) {
         appendWrap = '.vip-tickets';
       }
 
@@ -215,23 +234,6 @@ $(function () {
   });
   $('.module2 .next-step').click(function () {
     if (!$(this).hasClass('disabled')) {
-      var data = {
-        firstName: $('.module2 .first-name-inpt').val(),
-        lastName: $('.module2 .last-name-inpt').val(),
-        email: $('.module2 .email-inpt').val(),
-        phoneNumber: $('.module2 .phone-number-inpt').val(),
-        address: {
-          addressLineOne: $('.module2 .address-line-one-inpt').val(),
-          addressLineTwo: $('.module2 .address-line-two-inpt').val(),
-          city: $('.module2 .city-inpt').val(),
-          state: $('.module2 .state-inpt').val(),
-          zipCode: $('.module2 .zip-code-inpt').val()
-        }
-      };
-      $.post({
-        url: "/api/addCustomerInformation",
-        data: data
-      });
       $('.module2').addClass('hidden');
       orderData.seats = [];
       $('.module1 .seat-wrap .selected').each(function () {
@@ -248,7 +250,8 @@ $(function () {
   var count = 1;
 
   var setupSuccessfulOrderPage = function setupSuccessfulOrderPage() {
-    $('.order-complete-page .info').text("This order has been processed successfully. Information regarding the order has been sent to ".concat(orderData.customerInformation.firstName, " ").concat(orderData.customerInformation.lastName, " via email."));
+    $('.order-complete-page .info').text("This order has been processed successfully. Information regarding the order has been sent to ".concat($('.first-name-inpt').val(), " ").concat($('.last-name-inpt').val(), " via email."));
+    $('.top-tag-wrap .tag-text').text('Now you may close/reload the page.');
     setInterval(function () {
       if (count == 15) {
         window.close();
@@ -261,22 +264,35 @@ $(function () {
 
   $('.module3 .finish-order-btn').click(function () {
     if (!$(this).hasClass('disabled')) {
-      $('.module3').addClass('hidden');
-      orderData.customerInformation = {
+      var data = {
         firstName: $('.first-name-inpt').val(),
         lastName: $('.last-name-inpt').val(),
         email: $('.email-inpt').val(),
         phoneNumber: $('.phone-number-inpt').val(),
-        address: {
-          addressLineOne: $('.address-line-one-inpt').val(),
-          addressLineTwo: $('.address-line-two-inpt').val(),
-          city: $('.city-inpt').val(),
-          state: $('.state-inpt').val(),
-          zipCode: $('.zip-code-inpt').val()
-        }
+        addressLineOne: $('.address-line-one-inpt').val(),
+        addressLineTwo: $('.address-line-two-inpt').val(),
+        city: $('.city-inpt').val(),
+        state: $('.state-inpt').val(),
+        zipCode: $('.zip-code-inpt').val(),
+        orderId: orderData.orderId,
+        seats: []
       };
-      $('.order-complete-page').removeClass('hidden');
-      setupSuccessfulOrderPage();
+      $('.module1 .seat-wrap .seat.selected').each(function () {
+        data.seats.push({
+          name: $(this).data('seat'),
+          attendeeName: $(".module3 .seat-input-wrap[data-seat=\"".concat($(this).data('seat'), "\"] input")).val()
+        });
+      });
+      console.log(data);
+      $.post({
+        url: '/admin/api/completeOrder',
+        data: data,
+        success: function success() {
+          $('.module3').addClass('hidden');
+          $('.order-complete-page').removeClass('hidden');
+          setupSuccessfulOrderPage();
+        }
+      });
     }
   });
 });

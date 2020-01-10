@@ -6,5 +6,6 @@ module.exports = {
   seatTypes: 'seat_types',
   seatsReservations: 'seats_reservations',
   sessions: 'sessions',
-  payment: 'payment'
+  payments: 'payments',
+  shipments: 'shipments'
 }

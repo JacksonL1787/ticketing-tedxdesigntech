@@ -2,6 +2,8 @@ script.
   let rawOrder = "#{order}"
   window.order = JSON.parse(rawOrder.replace(/&quot;/g, '"'))
 
+.confirm-message-container
+
 .flex-wrap.info-flex-wrap
   .customer-info-widget
     h2.widget-title Customer Information
@@ -84,3 +86,20 @@ script.
     p.note-status-updated Saved
     h2.widget-title Order Note
     textarea.note(placeholder="No Notes" data-gramm_editor="false")
+.shipping-status-widget
+  .content
+    h2.widget-title Shipping Status
+    .shipping-add-tracking-number-wrap.shipping-status-info-wrap
+      p.widget-desc Add the UPS tracking number of this order's tickets.
+      .insert-tracking-number-wrap
+        input.tracking-number-inpt(placeholder="UPS Tracking Number")
+        button.confirm-tracking-number.disabled Confirm
+      button.deactivate-shipping-btn Deactivate Shipping for This Order
+      p.deactivate-shipping-details Double click deactive button to deactivate shipping. <b>Note:</b> This will notify the customer.
+    .shipping-deactivated-wrap.shipping-status-info-wrap
+      p.widget-desc Shipping is currently disabled for this order.
+      button.activate-shipping-btn Activate Shipping for This Order
+      p.activate-shipping-details Double click deactive button to deactivate shipping. <b>Note:</b> This will notify the customer.
+    .shipping-on-way-wrap.shipping-status-info-wrap
+      p.widget-desc Tracking Number has been enetered for this order.
+      button.track-package-btn Track Tickets

@@ -1,6 +1,27 @@
 const vipRows = ['A', 'B', 'C']
 
-$(function() { // ADD DATA TO DOCUMENT
+const hideShippingStatusWraps = () => {
+  $('.shipping-status-widget .shipping-status-info-wrap').hide()
+}
+
+const showTrackingNumberWrap = () => {
+  hideShippingStatusWraps()
+  $('.shipping-status-widget .shipping-add-tracking-number-wrap .tracking-number-inpt').val('')
+  $('.shipping-status-widget .shipping-add-tracking-number-wrap').show()
+}
+
+const showDeactivatedShippingWrap = () => {
+  hideShippingStatusWraps()
+  $('.shipping-status-widget .shipping-deactivated-wrap').show()
+}
+
+const showShippingOnWayWrap = () => {
+  hideShippingStatusWraps()
+  $('.shipping-status-widget').addClass('shipped')
+  $('.shipping-status-widget .shipping-on-way-wrap').show()
+}
+
+$(() => { // ADD DATA TO DOCUMENT
 
   const addCustomerInfo = () => {
     $('.customer-info-widget .first-name-inpt').val(order.first_name)
@@ -12,6 +33,19 @@ $(function() { // ADD DATA TO DOCUMENT
     $('.customer-info-widget .city-inpt').val(order.city)
     $('.customer-info-widget .state-inpt').val(order.state)
     $('.customer-info-widget .zip-code-inpt').val(order.zip_code)
+  }
+
+  const addShippingInfo = () => {
+    if(window.order.shipment_status) {
+      showShippingOnWayWrap()
+      return;
+    }
+    if(window.order.not_shipping) {
+      showDeactivatedShippingWrap()
+    } else {
+      showTrackingNumberWrap()
+    }
+
   }
 
   const addSeatInfo = () => {
@@ -49,18 +83,20 @@ $(function() { // ADD DATA TO DOCUMENT
       price.total = price.subTotal + price.fee
       $('.cart-info-widget .seats-wrap').append(`<div class="seat-wrap" data-seat="${tempData.seat}"><div class="seat">${vipIcon}</div><div class="seat-info"><p class="seat-number">Seat ${tempData.seat} - <span class="seat-status">${tempData.seatStatus}</span></p><p class="seat-name">${tempData.name}</p></div><p class="seat-price">$${tempData.price}</p></div>`)
     })
-    $('.cart-info-widget .subtotal-wrap .charge').text(price.subTotal === 0 ? "Free" : `$${price.subTotal.toFixed(2)}`)
-    $('.cart-info-widget .fees-wrap .charge').text(price.fee === 0 ? "Free" : `$${price.fee.toFixed(2)}`)
-    $('.cart-info-widget .total-price').text(price.total === 0 ? "Free" : `$${price.total.toFixed(2)}`)
+
+    $('.cart-info-widget .subtotal-wrap .charge').text(price.subTotal === 0 ? "$0.00" : `$${price.subTotal.toFixed(2)}`)
+    $('.cart-info-widget .fees-wrap .charge').text(price.fee === 0 ? "$0.00" : `$${price.fee.toFixed(2)}`)
+    $('.cart-info-widget .total-price').text(parseFloat(window.order.payment_amount) == 0 ? "Free" : `$${parseFloat(window.order.payment_amount).toFixed(2)}`)
+    if(window.order.payment_amount == 0) {
+      $('.cart-info-widget .seats-wrap .seat-price').text('$0.00')
+      $('.cart-info-widget .subtotal-wrap .charge').text('$0.00')
+      $('.cart-info-widget .fees-wrap .charge').text('$0.00')
+    }
   }
 
   const addBasicInfo = () => {
     $('.basic-info-widget .order-id-wrap h1').text(order.order_code)
     $('.basic-info-widget .purchase-time-wrap h1').text(moment(order.timestamp).format('MMM DD, YYYY LT'))
-  }
-
-  const addPaymentInfo = () => {
-
   }
 
   const addNotesInfo = () => {
@@ -75,8 +111,8 @@ $(function() { // ADD DATA TO DOCUMENT
     addSeatInfo()
     addCartInfo()
     addBasicInfo()
-    addPaymentInfo()
     addNotesInfo()
+    addShippingInfo()
   })
 })
 
@@ -120,6 +156,14 @@ $('.notes-info-widget .note').on('input', function() {
     $('.notes-info-widget .update-note-btn').addClass('disabled')
   }
 })
+
+const createMessage = (text) => {
+  let msg = $(`<div class="message-wrap"><div class="content"><div class="icon"></div><p class="message">${text}</p></div></div>`)
+  $('.confirm-message-container').prepend(msg)
+  setTimeout(() => {
+    $(msg).remove()
+  }, 5000)
+}
 
 $(() => {
   let check;
@@ -182,8 +226,101 @@ $('.update-info-widget .update-info-btn').click(function() {
       url: '/admin/api/updateOrderInfo',
       data: data,
       success: () => {
-        console.log('success')
+        createMessage('Information has been successfully updated')
+        window.order.first_name = data.first_name
+        window.order.last_name = data.last_name
+        window.order.email = data.email
+        window.order.phone_number = data.phone_number
+        window.order.address_line_one = data.address_line_one
+        window.order.address_line_two = data.address_line_two
+        window.order.city = data.city
+        window.order.state = data.state
+        window.order.zip_code = data.zip_code
+        window.order.seats.forEach((s) => {
+          data.seats.forEach((st) => {
+            if(st.id === s.seat_id) {
+              s.attendee_name = st.attendee_name
+            }
+          })
+        })
+        checkForUpdate()
       }
     })
   }
+})
+
+$(() => {
+  let shippingStatusButtonClicks = 0;
+
+  $('.shipping-status-widget .deactivate-shipping-btn').click(function() {
+    shippingStatusButtonClicks++
+    if(shippingStatusButtonClicks >= 2) {
+      shippingStatusButtonClicks = 0
+      $.ajax({
+        url: '/admin/api/deactivateShipping',
+        type: 'post',
+        data: {
+          orderId: window.order.order_id
+        },
+        success: () => {
+          createMessage('Shipping has been deactivated for this order')
+          showDeactivatedShippingWrap()
+        }
+      })
+    }
+  })
+
+  $('.shipping-status-widget .activate-shipping-btn').click(function() {
+    shippingStatusButtonClicks++
+    if(shippingStatusButtonClicks >= 2) {
+      shippingStatusButtonClicks = 0
+      $.ajax({
+        url: '/admin/api/activateShipping',
+        type: 'post',
+        data: {
+          orderId: window.order.order_id
+        },
+        success: () => {
+          createMessage('Shipping has been activated for this order')
+          showTrackingNumberWrap()
+        }
+      })
+    }
+  })
+
+  $('.shipping-status-widget .tracking-number-inpt').on('input', function() {
+    if($(this).val().replace(' ', '').length > 0) {
+      $('.shipping-status-widget .confirm-tracking-number').removeClass('disabled')
+    } else {
+      $('.shipping-status-widget .confirm-tracking-number').addClass('disabled')
+    }
+  })
+
+  $('.shipping-status-widget .confirm-tracking-number').click(function() {
+    if(!$(this).hasClass('disabled')) {
+
+      $.ajax({
+        url: '/admin/api/addTrackingNumber',
+        type: 'post',
+        data: {
+          orderId: window.order.order_id,
+          trackingNumber: $('.shipping-status-widget .tracking-number-inpt').val(),
+          order_code: window.order.order_code,
+          user: {
+            first_name: window.order.first_name,
+            email: window.order.email
+          }
+        },
+        success: () => {
+          createMessage('Tracking number has been succesfully added')
+          window.order.tracking_number = $('.shipping-status-widget .tracking-number-inpt').val()
+          showShippingOnWayWrap()
+        }
+      })
+    }
+  })
+
+  $('.shipping-status-widget .track-package-btn').click(function() {
+    window.open(`https://www.ups.com/track?tracknum=${window.order.shipment_tracking_number}`, '_blank')
+  })
 })

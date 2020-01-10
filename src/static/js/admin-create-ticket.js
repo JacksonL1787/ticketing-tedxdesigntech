@@ -59,6 +59,23 @@ $(function() {
     }
   }
 
+  $('.module1 .cancel-btn').click(function() {
+    if(orderData.orderId) {
+      $.post({
+        url: '/admin/api/cancelOrder',
+        data: {
+          orderId: orderData.orderId
+        },
+        success: () => {
+          window.close()
+        }
+      })
+    } else {
+      window.close()
+    }
+
+  })
+
   $(document).on('click', '.module1 .seat-wrap .seat', function() {
     if(!$(this).hasClass('taken')) {
       if($(this).hasClass('selected')) {
@@ -125,14 +142,18 @@ $(function() {
       $('.module1').addClass('hidden')
       $('.module2').removeClass('hidden')
       let data = {
-        seats: []
+        seats: [],
+        orderId: orderData.orderId
       }
       $('.module1 .seat-wrap .seat.selected').each(function() {
         data.seats.push($(this).data('seat'))
       })
       $.post({
-        url: "/api/createOrder",
-        data: data
+        url: "/admin/api/beginOrder",
+        data: data,
+        success: (result) => {
+          orderData.orderId = result.orderId
+        }
       })
     }
   })
@@ -157,7 +178,7 @@ $(function() {
         $('.module3 .next-step').removeClass('disabled')
       }
       let appendWrap = '.ga-tickets'
-      if(vipRows.includes(item.seat[item.seat.length - 1])) {
+      if(vipRows.includes(item.seat[0])) {
         appendWrap = '.vip-tickets'
       }
       $(`.module3 .form-content ${appendWrap} .inputs-wrap`).append(`<div class="seat-input-wrap" data-seat="${item.seat}"><div class="seat-number-wrap"><p class="seat-number">${item.seat}</p></div><input value="${inputVal}" class="seat-name-inpt" type="text" placeholder="First and Last Name" onkeypress="return (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90) || event.charCode == 32"/></div>`)
@@ -210,23 +231,6 @@ $(function() {
 
   $('.module2 .next-step').click(function() {
     if(!$(this).hasClass('disabled')) {
-      let data = {
-        firstName: $('.module2 .first-name-inpt').val(),
-        lastName: $('.module2 .last-name-inpt').val(),
-        email: $('.module2 .email-inpt').val(),
-        phoneNumber: $('.module2 .phone-number-inpt').val(),
-        address: {
-          addressLineOne: $('.module2 .address-line-one-inpt').val(),
-          addressLineTwo: $('.module2 .address-line-two-inpt').val(),
-          city: $('.module2 .city-inpt').val(),
-          state: $('.module2 .state-inpt').val(),
-          zipCode: $('.module2 .zip-code-inpt').val()
-        }
-      }
-      $.post({
-        url: "/api/addCustomerInformation",
-        data: data
-      })
       $('.module2').addClass('hidden')
       orderData.seats = []
       $('.module1 .seat-wrap .selected').each(function() {
@@ -252,7 +256,8 @@ $(function() {
 $(function() {
   let count = 1
   const setupSuccessfulOrderPage = () => {
-    $('.order-complete-page .info').text(`This order has been processed successfully. Information regarding the order has been sent to ${orderData.customerInformation.firstName} ${orderData.customerInformation.lastName} via email.`)
+    $('.order-complete-page .info').text(`This order has been processed successfully. Information regarding the order has been sent to ${$('.first-name-inpt').val()} ${$('.last-name-inpt').val()} via email.`)
+    $('.top-tag-wrap .tag-text').text('Now you may close/reload the page.')
     setInterval(function() {
       if(count == 15) {
         window.close()
@@ -264,22 +269,36 @@ $(function() {
 
   $('.module3 .finish-order-btn').click(function() {
     if(!$(this).hasClass('disabled')) {
-      $('.module3').addClass('hidden')
-      orderData.customerInformation = {
+      let data = {
         firstName: $('.first-name-inpt').val(),
         lastName: $('.last-name-inpt').val(),
         email: $('.email-inpt').val(),
         phoneNumber: $('.phone-number-inpt').val(),
-        address: {
-          addressLineOne: $('.address-line-one-inpt').val(),
-          addressLineTwo: $('.address-line-two-inpt').val(),
-          city: $('.city-inpt').val(),
-          state: $('.state-inpt').val(),
-          zipCode: $('.zip-code-inpt').val()
-        }
+        addressLineOne: $('.address-line-one-inpt').val(),
+        addressLineTwo: $('.address-line-two-inpt').val(),
+        city: $('.city-inpt').val(),
+        state: $('.state-inpt').val(),
+        zipCode: $('.zip-code-inpt').val(),
+        orderId: orderData.orderId,
+        seats: []
       }
-      $('.order-complete-page').removeClass('hidden')
-      setupSuccessfulOrderPage()
+      $('.module1 .seat-wrap .seat.selected').each(function() {
+        data.seats.push({
+          name: $(this).data('seat'),
+          attendeeName: $(`.module3 .seat-input-wrap[data-seat="${$(this).data('seat')}"] input`).val()
+        })
+      })
+      console.log(data)
+      $.post({
+        url: '/admin/api/completeOrder',
+        data: data,
+        success: () => {
+          $('.module3').addClass('hidden')
+          $('.order-complete-page').removeClass('hidden')
+          setupSuccessfulOrderPage()
+        }
+      })
+
     }
   })
 })

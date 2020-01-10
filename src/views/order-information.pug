@@ -1,7 +1,7 @@
 doctype html
 html
 	head
-		title Seat Selection
+		title Order Information
 		meta(name="viewport" content="width=device-width, initial-scale=1.0")
 		link(rel="stylesheet" href="/css/order-information.css")
 		link(rel="stylesheet" href="/css/main.css")
@@ -15,10 +15,10 @@ html
 	body
 		.top
 			h1.page-title
-			p.desc If you have any questions regarding your order please contact us at <a href="mailto:support@tedxdesigntech.com">support@tedxdesigntech.com</a>
+			p.desc If you have any questions regarding your order please contact us at <a href="mailto:support@tedxdesigntech.com">support@tedxdesigntech.com</a>.
 		.not-valid-wrap
 			h2.title Not a Valid Order
-			p.desc Make sure to check that you are using the correct order code that you recieved in your email. If this problem continues, please don't hesitate to contact us at <a href="mailto:support@tedxdesigntech.com">support@tedxdesigntech.com</a>
+			p.desc Make sure to check that you are using the correct order code that you recieved in your email. If this problem continues, please don't hesitate to contact us at <a href="mailto:support@tedxdesigntech.com">support@tedxdesigntech.com</a>.
 		.layout
 			.widget-flex-wrap
 				.basic-info-widget.widget
@@ -61,8 +61,29 @@ html
 							label Zip Code
 							p.zip-code
 			.widget-flex-wrap
-				.seat-info-payment-widget.widget
+				.seat-info-widget.widget
 					h1.widget-title Seat Info
+					.seats-wrap
+					.total-wrap
+						.charges
+							.flex-wrap.subtotal-wrap
+								p.title Subtotal
+								p.charge
+							.flex-wrap.fees-wrap
+								p.title Fees
+								p.charge 
+							.flex-wrap.discount-wrap(style="display: none")
+								p.title Discount
+								p.charge 
+							h2.total-price
 				.shipping-status-widget.widget
 					h1.widget-title Shipping Status
+					p.not-shipped.shipment-status Your tickets have not been shipped yet. We will send you an email when your tickets are on their way. If you have any questions please contact us at <a href="mailto:support@tedxdesigntech.com">support@tedxdesigntech.com</a>.
+					.shipping-cancelled-wrap.shipment-status
+						.icon
+						p.shipping-status-text Your tickets will not be shipped. This most likely happened because there was not enough time between your order being processed and the event to ship them. You will have to pickup your tickets the day of the event at the Oracle Conference Center. Please be prepared to tell us your last name and order code at the door. If you have any questions regarding why this happened, contact us at <a href="mailto:support@tedxdesigntech.com">support@tedxdesigntech.com</a>.
+					.tickets-shipping-wrap.shipment-status
+						.icon
+						p.shipping-status-text Your tickets are on there way! You can track your tickets below. If you have any question regarding your shipment contact us at <a href="mailto:support@tedxdesigntech.com">support@tedxdesigntech.com</a>.
+						button.track-tickets-btn Track Your Tickets
 		script(src="/js/order-information.js")
