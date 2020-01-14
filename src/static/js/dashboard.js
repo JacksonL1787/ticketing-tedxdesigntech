@@ -60,7 +60,7 @@ $(function() { // Set Info Widgets
     window.orders.forEach(function(order) {
       order.seats.forEach(function(seat) {
         if(seat.type != "VIP") {
-          revenue += parseFloat(seat.price) + parseFloat(seat.fee)
+          revenue += parseFloat(order.payment_amount) === 0 ? 0 : parseFloat(seat.price) + parseFloat(seat.fee)
         }
       })
     })
@@ -68,11 +68,11 @@ $(function() { // Set Info Widgets
   }
 
   const getVIPRevenue = () => {
-    let revenue = 0;
+    let revenue = 0
     window.orders.forEach(function(order) {
       order.seats.forEach(function(seat) {
         if(seat.type === "VIP") {
-          revenue += parseFloat(seat.price) + parseFloat(seat.fee)
+          revenue += parseFloat(order.payment_amount) === 0 ? 0 : parseFloat(seat.price) + parseFloat(seat.fee)
         }
       })
     })

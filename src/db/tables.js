@@ -7,5 +7,6 @@ module.exports = {
   seatsReservations: 'seats_reservations',
   sessions: 'sessions',
   payments: 'payments',
-  shipments: 'shipments'
+  shipments: 'shipments',
+  stripeCustomers: 'stripe_customers'
 }

@@ -15,6 +15,10 @@ const finishOrder = require('../../db/orders/finishOrder')
 const sendOrderCompleteEmail = require('../../mail/orderComplete')
 const getOrderIdByCode = require('../../db/orders/getOrderIdByCode')
 const getOrderById = require('../../db/orders/getOrderById')
+const getStripeCustomer = require('../../db/stripe/getStripeCustomer')
+const createStripeCustomer = require('../../stripe/createStripeCustomer')
+const addStripeCustomer = require('../../db/stripe/addStripeCustomer')
+const generateCheckoutSession = require('../../stripe/generateCheckoutSession')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -29,7 +33,6 @@ router.get('/seats/selection', async (req, res, next) => {
     userSeats = await getOrderSeats(res.locals.user.order_id)
   }
 
-
   res.render('seat-selection', {userSeats: JSON.stringify(userSeats), seatPrices: JSON.stringify(await getSeatPrices()), takenSeats: JSON.stringify(await getAllTakenSeats())});
 });
 
@@ -39,7 +42,6 @@ router.get('/customer/information', auth, async (req, res, next) => {
   if(res.locals.user.order_status < 1) {
     res.redirect('/seats/selection')
   }
-
   let customerData;
   if(res.locals.user.customer_id) {
     customerData = {
@@ -64,6 +66,15 @@ router.get('/seats/information', auth, async (req, res, next) => {
 
   const seatData = await getOrderSeats(res.locals.user.order_id)
   res.render('seat-information', {seatData: JSON.stringify(seatData)})
+});
+
+router.get('/order-failed', auth, async (req, res, next) => {
+  if(res.locals.user.order_status < 3) {
+    res.redirect('/seats/information')
+  }
+
+  req.flash('checkoutFail', 'checkoutFail')
+  res.redirect('/seats/checkout');
 });
 
 router.get('/seats/checkout', auth, async (req, res, next) => {
@@ -107,11 +118,10 @@ router.post('/api/createOrder', async (req, res, next) => {
   } catch(e) {
     res.status(500).send(e.toString())
   }
-
 })
 
-router.post('/api/addAttendeeNames', auth, async (req, res, next) => {
 
+router.post('/api/addAttendeeNames', auth, async (req, res, next) => {
   if(res.locals.user.order_status < 2) {
     return res.sendStatus(400)
   }
@@ -159,23 +169,46 @@ router.post('/api/addCustomerInformation', auth, async (req, res, next) => {
   }
 })
 
-router.post('/api/finishOrder', auth, async (req, res, next) => {
+router.get('/api/stripe/checkoutSession', auth, async (req, res, next) => {
   if(res.locals.user.order_status < 3) {
     return res.sendStatus(400)
   }
+  const user = res.locals.user
+  const orderSeats = await getOrderSeats(user.order_id)
+  let price = 0
+  orderSeats.forEach((o) => {
+    price += parseInt((parseFloat(o.price) + parseFloat(o.fee)) * 100)
+  })
+  const email = user.email
+  let customer = await getStripeCustomer(email)
+  if(!customer) {
+    customer = await createStripeCustomer(user)
+    addStripeCustomer(customer)
+  }
+  const session = await generateCheckoutSession(customer, price)
+  res.send(session.id)
+})
 
-  const data = {
-    seats: await getOrderSeats(res.locals.user.order_id),
-    ...res.locals.user
+router.post('/api/stripe/webhook', async (req, res, next) => {
+  let event;
+  try {
+    event = await req.body;
+  } catch (err) {
+    res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  try {
+  console.log(event)
+  if(event.type === "charge.succeeded") {
+    const data = {
+      seats: await getOrderSeats(res.locals.user.order_id),
+      ...res.locals.user
+    }
+    console.log('DATA', data)
     await finishOrder(data)
     sendOrderCompleteEmail(data)
     res.cookie('session_string', undefined)
-    res.sendStatus(200)
-  } catch(e) {
-    res.status(500)
+  } else if (event.type === "charge.failed") {
+    console.log('fail')
   }
 })
 

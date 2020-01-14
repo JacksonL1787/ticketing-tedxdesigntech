@@ -65,7 +65,7 @@ $(function () {
     window.orders.forEach(function (order) {
       order.seats.forEach(function (seat) {
         if (seat.type != "VIP") {
-          revenue += parseFloat(seat.price) + parseFloat(seat.fee);
+          revenue += parseFloat(order.payment_amount) === 0 ? 0 : parseFloat(seat.price) + parseFloat(seat.fee);
         }
       });
     });
@@ -77,7 +77,7 @@ $(function () {
     window.orders.forEach(function (order) {
       order.seats.forEach(function (seat) {
         if (seat.type === "VIP") {
-          revenue += parseFloat(seat.price) + parseFloat(seat.fee);
+          revenue += parseFloat(order.payment_amount) === 0 ? 0 : parseFloat(seat.price) + parseFloat(seat.fee);
         }
       });
     });

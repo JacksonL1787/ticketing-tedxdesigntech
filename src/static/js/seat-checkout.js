@@ -3,6 +3,7 @@ let price = {
   fee: 0,
   total: 0
 }
+const stripe = Stripe('pk_test_OnZ7dgb1twqWB2XAjquTPtTL00BGDKrbP1');
 
 const addCartItems = () => {
   window.seatData.forEach((item) => {
@@ -27,16 +28,27 @@ const setPrice = () => {
   $('.your-cart-info .total-price').text(`$${price.total.toFixed(2)}`)
 }
 
+const failMessage = () => {
+  let msg = $(`<div class="message-wrap"><div class="message-content"><div class="icon"></div><p class="message">Your order payment failed.</p></div></div>`)
+  $('.message-container').prepend(msg)
+  setTimeout(() => {
+    $(msg).remove()
+  }, 7000)
+}
+
 $(document).ready(function() {
   addCartItems()
   setPrice()
+  if(window.message === "checkoutFail") {
+    failMessage()
+  }
 })
 
 $('.payment .purchase-btn').click(function() {
-  $.post({
-    url: '/api/finishOrder',
-    success: function() {
-      window.location.href="/order-complete"
+  $.get({
+    url: '/api/stripe/checkoutSession',
+    success: function(sessionId) {
+      stripe.redirectToCheckout({sessionId})
     }
   })
 })
