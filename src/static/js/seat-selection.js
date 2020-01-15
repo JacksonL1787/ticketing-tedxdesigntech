@@ -74,7 +74,7 @@ const removeSeatInfo = seat => {
     if (
       $(this)
         .children(".seat-number")
-        .text() == seatNum
+        .text() === seatNum
     ) {
       $(this).remove();
       return;
@@ -103,7 +103,7 @@ const selectSeat = seat => {
 
 const removeSeat = seat => {
   overview.seats.splice(overview.seats.indexOf(seat.attr("data-seat")), 1);
-  if (overview.seats.length == 0) {
+  if (overview.seats.length === 0) {
     $(".seats-wrap .none-selected").show();
   }
   let number;

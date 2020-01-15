@@ -54,14 +54,16 @@ $(() => {
     order.seats.forEach(seat => {
       let appendWrap = seat.type === "VIP" ? ".vip-seats" : ".ga-seats";
       $(`.seat-info-widget ${appendWrap} .inputs-wrap`).append(
-        `<div class="seat-input-wrap" data-seat-id="${seat.seat_id}" data-seat="${seat.name}"><div class="seat-number-wrap"><p class="seat-number">${seat.name}</p></div><input value="${seat.attendee_name}" class="seat-name-inpt" type="text" placeholder="First and Last Name" onkeypress="return (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90) || event.charCode == 32"/></div>`
+        `<div class="seat-input-wrap" data-seat-id="${seat.seat_id}" data-seat="${seat.name}"><div class="seat-number-wrap"><p class="seat-number">${seat.name}</p></div><input value="${seat.attendee_name}" class="seat-name-inpt" type="text" placeholder="First and Last Name" onkeypress="return (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90) || event.charCode===32"/></div>`
       );
     });
-    if ($(".seat-info-widget .ga-seats .inputs-wrap").children().length == 0) {
+    if ($(".seat-info-widget .ga-seats .inputs-wrap").children().length === 0) {
       $(".seat-info-widget .ga-seats .no-seats").show();
       $(".seat-info-widget .ga-seats .inputs-wrap").hide();
     }
-    if ($(".seat-info-widget .vip-seats .inputs-wrap").children().length == 0) {
+    if (
+      $(".seat-info-widget .vip-seats .inputs-wrap").children().length === 0
+    ) {
       $(".seat-info-widget .vip-seats .no-seats").show();
       $(".seat-info-widget .vip-seats .inputs-wrap").hide();
     }
@@ -97,11 +99,11 @@ $(() => {
       price.fee === 0 ? "$0.00" : `$${price.fee.toFixed(2)}`
     );
     $(".cart-info-widget .total-price").text(
-      parseFloat(window.order.payment_amount) == 0
+      parseFloat(window.order.payment_amount) === 0
         ? "Free"
         : `$${parseFloat(window.order.payment_amount).toFixed(2)}`
     );
-    if (window.order.payment_amount == 0) {
+    if (window.order.payment_amount === 0) {
       $(".cart-info-widget .seats-wrap .seat-price").text("$0.00");
       $(".cart-info-widget .subtotal-wrap .charge").text("$0.00");
       $(".cart-info-widget .fees-wrap .charge").text("$0.00");

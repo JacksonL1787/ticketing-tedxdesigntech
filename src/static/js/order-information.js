@@ -83,12 +83,12 @@ const addSeatInfo = () => {
     price.fee === 0 ? "Free" : `$${price.fee.toFixed(2)}`
   );
   $(".seat-info-widget .total-price").text(
-    parseFloat(window.order.payment_amount) == 0
+    parseFloat(window.order.payment_amount) === 0
       ? "Free"
       : `$${parseFloat(window.order.payment_amount).toFixed(2)}`
   );
 
-  if (window.order.payment_amount == 0) {
+  if (window.order.payment_amount === 0) {
     $(".seat-info-widget .seats-wrap .seat-price").text("$0.00");
     $(".seat-info-widget .subtotal-wrap .charge").text("$0.00");
     $(".seat-info-widget .fees-wrap .charge").text("$0.00");

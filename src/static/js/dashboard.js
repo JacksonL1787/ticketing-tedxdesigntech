@@ -6,7 +6,7 @@ const getSeatTotals = () => {
   let gaSeatsSold = 0;
   window.orders.forEach(function(item) {
     item.seats.forEach(function(seat) {
-      if (seat.type == "VIP") {
+      if (seat.type === "VIP") {
         vipSeatsSold++;
       } else {
         gaSeatsSold++;
@@ -169,7 +169,7 @@ $(function() {
         }</p></td><td><p class="date-info">${moment(orderData.timestamp).format(
           "MMM DD, YYYY"
         )}</p></td><td><p class="price-info">${
-          orderData.payment_amount == 0
+          orderData.payment_amount === 0
             ? "Free"
             : "$" + parseFloat(orderData.payment_amount).toFixed(2)
         }</p></td><td><div class="pill-flex-wrap">${seatsHTML}</td><td><div class="action-btn" data-order="${

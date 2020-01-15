@@ -1,11 +1,11 @@
 $(document).ready(function() {
-  if (window.location.pathname == "/admin/dashboard") {
+  if (window.location.pathname === "/admin/dashboard") {
     $(".dashboard-nav-item").addClass("active");
-  } else if (window.location.pathname == "/admin/create-ticket") {
+  } else if (window.location.pathname === "/admin/create-ticket") {
     $(".create-ticket-nav-item").addClass("active");
-  } else if (window.location.pathname == "/admin/orders") {
+  } else if (window.location.pathname === "/admin/orders") {
     $(".ticket-orders-nav-item").addClass("active");
-  } else if (window.location.pathname == "/admin/revenue") {
+  } else if (window.location.pathname === "/admin/revenue") {
     $(".revenue-nav-item").addClass("active");
   }
 });

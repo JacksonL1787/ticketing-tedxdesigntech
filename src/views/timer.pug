@@ -8,7 +8,7 @@ script.
     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     let seconds = Math.floor((distance % (1000 * 60)) / 1000);
     $('.timer-wrap .timer .minutes').text(minutes)
-    $('.timer-wrap .timer .seconds').text(seconds.toString().length == 1 ? '0'+seconds : seconds)
+    $('.timer-wrap .timer .seconds').text(seconds.toString().length===1 ? '0'+seconds : seconds)
     if(distance < 0) {
       clearInterval(timer)
       window.location.href='/'

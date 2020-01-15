@@ -206,10 +206,10 @@ $(function() {
         appendWrap = ".vip-tickets";
       }
       $(`.module3 .form-content ${appendWrap} .inputs-wrap`).append(
-        `<div class="seat-input-wrap" data-seat="${item.seat}"><div class="seat-number-wrap"><p class="seat-number">${item.seat}</p></div><input value="${inputVal}" class="seat-name-inpt" type="text" placeholder="First and Last Name" onkeypress="return (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90) || event.charCode == 32"/></div>`
+        `<div class="seat-input-wrap" data-seat="${item.seat}"><div class="seat-number-wrap"><p class="seat-number">${item.seat}</p></div><input value="${inputVal}" class="seat-name-inpt" type="text" placeholder="First and Last Name" onkeypress="return (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90) || event.charCode===32"/></div>`
       );
     });
-    if ($(".module3 .ga-tickets .inputs-wrap").children().length == 0) {
+    if ($(".module3 .ga-tickets .inputs-wrap").children().length === 0) {
       $(".module3 .ga-tickets .no-tickets").show();
       $(".module3 .ga-tickets .inputs-wrap").hide();
     } else {
@@ -217,7 +217,7 @@ $(function() {
       $(".module3 .ga-tickets .inputs-wrap").show();
     }
 
-    if ($(".module3 .vip-tickets .inputs-wrap").children().length == 0) {
+    if ($(".module3 .vip-tickets .inputs-wrap").children().length === 0) {
       $(".module3 .vip-tickets .no-tickets").show();
       $(".module3 .vip-tickets .inputs-wrap").hide();
     } else {
@@ -280,7 +280,7 @@ $(function() {
     );
     $(".top-tag-wrap .tag-text").text("Now you may close/reload the page.");
     setInterval(function() {
-      if (count == 15) {
+      if (count === 15) {
         window.close();
       }
       count++;

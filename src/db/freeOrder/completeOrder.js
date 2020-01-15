@@ -58,7 +58,7 @@ module.exports = async data => {
   tempSeatData.forEach(seat => {
     let attendeeName = "";
     data.seats.forEach(s2 => {
-      if (s2.name == seat.name) {
+      if (s2.name === seat.name) {
         attendeeName = s2.attendeeName;
       }
     });

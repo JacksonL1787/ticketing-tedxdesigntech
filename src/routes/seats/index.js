@@ -1,5 +1,7 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
+const stripe = require("stripe")("sk_test_URlG5O3NyeAQKT4MGn2RyyA000jLXPjabW");
+const endpointSecret = "whsec_dCnKcR2B4b9djpMX8dlLY33cZx7wQyVZ";
 
 const auth = require("../auth");
 const getTakenSeats = require("../../db/seats/getTakenSeats");
@@ -104,7 +106,7 @@ router.get("/order-complete/", async (req, res, next) => {
 
 router.get("/order/:orderCode", async (req, res, next) => {
   const orderId = await getOrderIdByCode(req.params.orderCode);
-  if (orderId.length == 0) {
+  if (orderId.length === 0) {
     res.render("order-information");
     return;
   }
@@ -200,9 +202,6 @@ router.get("/api/stripe/checkoutSession", auth, async (req, res, next) => {
   const session = await generateCheckoutSession(customer, price, user.order_id);
   res.send(session.id);
 });
-
-const stripe = require("stripe")("sk_test_URlG5O3NyeAQKT4MGn2RyyA000jLXPjabW");
-const endpointSecret = "whsec_dCnKcR2B4b9djpMX8dlLY33cZx7wQyVZ";
 
 router.post("/api/stripe/webhook", (req, res, next) => {
   const sig = req.headers["stripe-signature"];

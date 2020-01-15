@@ -1,7 +1,7 @@
 let checkIfOrders = () => {
   if (
-    $(".orders-table .hidden").length == $(".orders-table .order").length ||
-    $(".orders-table .order").length == 0
+    $(".orders-table .hidden").length === $(".orders-table .order").length ||
+    $(".orders-table .order").length === 0
   ) {
     $(".no-orders").show();
   } else {
@@ -42,7 +42,7 @@ $(function() {
 
           <td>
             <p class="price-info">${
-              item.payment_amount == 0
+              item.payment_amount === 0
                 ? "Free"
                 : "$" + item.payment_amount.toFixed(2)
             }</p>
