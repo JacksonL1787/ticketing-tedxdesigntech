@@ -1,9 +1,8 @@
-const { writer, reader } = require('../pool')
-const tables = require('../tables')
+const { writer, reader } = require("../pool");
+const tables = require("../tables");
 
-module.exports = async (data) => {
-
-  const trx = await writer.transaction()
+module.exports = async data => {
+  const trx = await writer.transaction();
 
   try {
     await trx(tables.customers).insert({
@@ -18,26 +17,26 @@ module.exports = async (data) => {
       state: data.state,
       zip_code: data.zipCode
     });
-  } catch(e) {
-    console.log('rollback')
-    await trx.rollback()
+  } catch (e) {
+    console.log("rollback");
+    await trx.rollback();
     console.log("Error adding customer data: ", e);
-    throw new Error('Error adding customer data');
+    throw new Error("Error adding customer data");
   }
 
   try {
     await trx(tables.orders)
-      .where('id', data.orderId)
+      .where("id", data.orderId)
       .update({
         status: 2
-      })
-  } catch(e) {
-    console.log('rollback')
-    await trx.rollback()
-    console.log("Error updating order status ", e)
-    throw new Error('Error updating order status')
+      });
+  } catch (e) {
+    console.log("rollback");
+    await trx.rollback();
+    console.log("Error updating order status ", e);
+    throw new Error("Error updating order status");
   }
 
-  await trx.commit()
+  await trx.commit();
   return;
-}
+};

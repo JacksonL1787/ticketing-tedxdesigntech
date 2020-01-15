@@ -1,9 +1,9 @@
-const { reader } = require('../pool')
-const tables = require('../tables')
-const getOrderSeats = require('../seats/getOrderSeats')
+const { reader } = require("../pool");
+const tables = require("../tables");
+const getOrderSeats = require("../seats/getOrderSeats");
 
-module.exports = async (id) => {
-  let orderRaw
+module.exports = async id => {
+  let orderRaw;
   try {
     orderRaw = await reader
       .select(
@@ -24,22 +24,44 @@ module.exports = async (id) => {
         `${tables.payments}.amount as payment_amount`,
         `${tables.shipments}.status as shipment_status`,
         `${tables.shipments}.tracking_number as shipment_tracking_number`,
-        `${tables.shipments}.not_shipping as not_shipping`)
+        `${tables.shipments}.not_shipping as not_shipping`
+      )
       .from(tables.orders)
-      .join(tables.customers, `${tables.customers}.order_id`, '=', `${tables.orders}.id`)
-      .join(tables.payments, `${tables.payments}.order_id`, '=', `${tables.orders}.id`)
-      .join(tables.shipments, `${tables.shipments}.order_id`, '=', `${tables.orders}.id`)
-      .orderByRaw('timestamp DESC')
+      .join(
+        tables.customers,
+        `${tables.customers}.order_id`,
+        "=",
+        `${tables.orders}.id`
+      )
+      .join(
+        tables.payments,
+        `${tables.payments}.order_id`,
+        "=",
+        `${tables.orders}.id`
+      )
+      .join(
+        tables.shipments,
+        `${tables.shipments}.order_id`,
+        "=",
+        `${tables.orders}.id`
+      )
+      .orderByRaw("timestamp DESC")
       .where(`${tables.orders}.status`, 4)
-      .where(`${tables.orders}.id`, id)
-  } catch(e) {
-    throw new Error ('Error getting order.')
+      .where(`${tables.orders}.id`, id);
+  } catch (e) {
+    throw new Error("Error getting order.");
   }
 
-    const createOrderObject = async item => {
-      return {...item, timestamp: new Date(item.timestamp).getTime(0),seats: await getOrderSeats(item.order_id)}
-    }
-    const order = await Promise.all(orderRaw.map(item => createOrderObject(item)))
-    console.log(order)
-    return order[0]
-}
+  const createOrderObject = async item => {
+    return {
+      ...item,
+      timestamp: new Date(item.timestamp).getTime(0),
+      seats: await getOrderSeats(item.order_id)
+    };
+  };
+  const order = await Promise.all(
+    orderRaw.map(item => createOrderObject(item))
+  );
+  console.log(order);
+  return order[0];
+};

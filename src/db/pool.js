@@ -1,20 +1,20 @@
-const knex = require('knex')
+const knex = require("knex");
 
 module.exports = {
   reader: knex({
-    client: 'pg',
+    client: "pg",
     connection: {
-      host : '127.0.0.1',
-      user : 'postgres',
-      database : 'ticketing'
+      host: "127.0.0.1",
+      user: "postgres",
+      database: "ticketing"
     }
   }),
   writer: knex({
-    client: 'pg',
+    client: "pg",
     connection: {
-      host : '127.0.0.1',
-      user : 'postgres',
-      database : 'ticketing'
+      host: "127.0.0.1",
+      user: "postgres",
+      database: "ticketing"
     }
   })
-}
+};

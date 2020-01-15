@@ -1,11 +1,11 @@
-const { writer, reader } = require('../pool')
-const tables = require('../tables')
+const { writer, reader } = require("../pool");
+const tables = require("../tables");
 
-module.exports = async (data) => {
-  console.log('update')
+module.exports = async data => {
+  console.log("update");
   try {
     await writer(tables.customers)
-      .where('order_id', data.orderId)
+      .where("order_id", data.orderId)
       .update({
         first_name: data.firstName,
         last_name: data.lastName,
@@ -16,10 +16,10 @@ module.exports = async (data) => {
         city: data.city,
         state: data.state,
         zip_code: data.zipCode
-    });
-  } catch(e) {
+      });
+  } catch (e) {
     console.log("Error adding customer data: ", e);
-    throw new Error('Error adding customer data');
+    throw new Error("Error adding customer data");
   }
   return;
-}
+};

@@ -1,29 +1,33 @@
 let checkIfOrders = () => {
-  if($('.orders-table .hidden').length == $('.orders-table .order').length || $('.orders-table .order').length == 0) {
-    $('.no-orders').show()
+  if (
+    $(".orders-table .hidden").length == $(".orders-table .order").length ||
+    $(".orders-table .order").length == 0
+  ) {
+    $(".no-orders").show();
   } else {
-    $('.no-orders').hide()
+    $(".no-orders").hide();
   }
-}
-
+};
 
 $(function() {
   $(document).ready(function() {
     window.orders.forEach(function(item, index) {
-      console.log(item)
-      let seatsHTML = ''
+      console.log(item);
+      let seatsHTML = "";
       item.seats.forEach(function(seatItem) {
-        seatsHTML+=`<p class="pill">${seatItem.name}</p>`
-      })
-      item.payment_amount = parseFloat(item.payment_amount)
-      $('.orders-table table tbody').append(`
+        seatsHTML += `<p class="pill">${seatItem.name}</p>`;
+      });
+      item.payment_amount = parseFloat(item.payment_amount);
+      $(".orders-table table tbody").append(`
         <tr class="order">
           <td>
             <p class="order-id-info">${item.order_code}</p>
           </td>
 
           <td>
-            <p class="customer-name-info">${item.first_name} ${item.last_name}</p>
+            <p class="customer-name-info">${
+              item.first_name
+            } ${item.last_name}</p>
           </td>
 
           <td>
@@ -31,11 +35,17 @@ $(function() {
           </td>
 
           <td>
-            <p class="date-info" data-time="${item.timestamp}">${moment(item.timestamp).format('MMM DD, YYYY')}</p>
+            <p class="date-info" data-time="${
+              item.timestamp
+            }">${moment(item.timestamp).format("MMM DD, YYYY")}</p>
           </td>
 
           <td>
-            <p class="price-info">${item.payment_amount == 0 ? 'Free' : '$' + item.payment_amount.toFixed(2)}</p>
+            <p class="price-info">${
+              item.payment_amount == 0
+                ? "Free"
+                : "$" + item.payment_amount.toFixed(2)
+            }</p>
           </td>
 
           <td>
@@ -47,54 +57,83 @@ $(function() {
               <div class="icon"></div>
             </div>
           </td>
-        </tr>`)
-    })
-    checkIfOrders()
-  })
-})
+        </tr>`);
+    });
+    checkIfOrders();
+  });
+});
 
-$('.search-wrap .search-bar').on('input', function() {
-  let val = $(this).val().toLowerCase()
-  $('.orders-table .order').each(function() {
-    let seats = []
-    $(this).find('.pill').each(function() {
-      seats.push($(this).text())
-    })
-    console.log()
-    if($(this).find('.order-id-info').text().toLowerCase().startsWith(val) || $(this).find('.customer-name-info').text().toLowerCase().startsWith(val) || $(this).find('.customer-email-info').text().toLowerCase().startsWith(val) || seats.includes(val.toUpperCase())) {
-      $(this).removeClass('hidden')
+$(".search-wrap .search-bar").on("input", function() {
+  let val = $(this)
+    .val()
+    .toLowerCase();
+  $(".orders-table .order").each(function() {
+    let seats = [];
+    $(this)
+      .find(".pill")
+      .each(function() {
+        seats.push($(this).text());
+      });
+    console.log();
+    if (
+      $(this)
+        .find(".order-id-info")
+        .text()
+        .toLowerCase()
+        .startsWith(val) ||
+      $(this)
+        .find(".customer-name-info")
+        .text()
+        .toLowerCase()
+        .startsWith(val) ||
+      $(this)
+        .find(".customer-email-info")
+        .text()
+        .toLowerCase()
+        .startsWith(val) ||
+      seats.includes(val.toUpperCase())
+    ) {
+      $(this).removeClass("hidden");
     } else {
-      $(this).addClass('hidden')
+      $(this).addClass("hidden");
     }
-  })
-  checkIfOrders()
-})
+  });
+  checkIfOrders();
+});
 
-$('.filter-bar .filter-option').click(function() {
-  $('.filter-bar .filter-option').removeClass('active')
-  $(this).addClass('active')
+$(".filter-bar .filter-option").click(function() {
+  $(".filter-bar .filter-option").removeClass("active");
+  $(this).addClass("active");
   let time;
-  if($(this).hasClass('today-filter')) {
+  if ($(this).hasClass("today-filter")) {
     time = 86400000;
-  } else if($(this).hasClass('week-filter')) {
+  } else if ($(this).hasClass("week-filter")) {
     time = 604800000;
-  } else if($(this).hasClass('month-filter')) {
+  } else if ($(this).hasClass("month-filter")) {
     time = 2592000000;
   } else {
-    $('.orders-table .order').removeClass('hidden');
+    $(".orders-table .order").removeClass("hidden");
     return;
   }
-  $('.orders-table .order').each(function() {
-    console.log('test')
-    if((parseInt($(this).find('.date-info').attr('data-time')) - (Date.now() - time)) >= 0) {
-      $(this).removeClass('hidden')
+  $(".orders-table .order").each(function() {
+    console.log("test");
+    if (
+      parseInt(
+        $(this)
+          .find(".date-info")
+          .attr("data-time")
+      ) -
+        (Date.now() - time) >=
+      0
+    ) {
+      $(this).removeClass("hidden");
     } else {
-      $(this).addClass('hidden')
+      $(this).addClass("hidden");
     }
-  })
-  checkIfOrders()
-})
+  });
+  checkIfOrders();
+});
 
-$(document).on('click', '.order .action-btn', function() {
-  window.location.href=`/admin/manage-order/${$(this).attr('data-order-id')}`
-})
+$(document).on("click", ".order .action-btn", function() {
+  window.location.href = `/admin/manage-order/${$(this).attr("data-order-id")}`;
+});
