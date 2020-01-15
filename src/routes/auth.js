@@ -9,7 +9,7 @@ module.exports = async (req,res,next) => {
     }
   }
   if(!req.cookies.session_string) {
-    if(res.locals.requiresAuth != false) {
+    if(res.locals.requiresAuth !== false) {
       return sendUnauthorized();
     } else {
       return;
@@ -20,7 +20,7 @@ module.exports = async (req,res,next) => {
   try {
     user = await getUserFromSession(req.cookies.session_string);
     console.log(user)
-    if(user.length !== 1 && res.locals.requiresAuth != false) {
+    if(user.length !== 1 && res.locals.requiresAuth !== false) {
       return sendUnauthorized();
     } else {
       res.locals.user = user[0];

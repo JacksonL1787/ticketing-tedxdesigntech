@@ -1,0 +1,68 @@
+.top
+  width 100%
+  height fit-content
+  margin-bottom 50px
+  position relative
+  .go-back-btn
+    position absolute
+    top 50%
+    transform translateY(-50%)
+    left 20px
+    background red
+    border none
+    color white
+    padding 7px 20px
+    cursor pointer
+    font-weight 700
+    font-size 15px
+    border-radius .3em
+    transition background .3s
+    &:hover
+      background #de0000
+  .page-title
+    color lightgrey
+    text-align center
+    font-weight 500
+    letter-spacing 1px
+    margin 16px 0
+
+.timer-wrap
+  width 200px
+  padding 10px 0
+  background #161a1d
+  box-shadow 0 5px 12px 5px rgba(0,0,0,0.1)
+  border 1px solid #32333e
+  text-align center
+  border-radius .3em
+  position absolute
+  top -7.5px
+  right 8px
+  .timer-desc
+    color lightgrey
+    font-size 12px
+    margin 0 0 2px
+  .timer
+    color white
+    margin 0
+    font-size 30px
+
+@media only screen and (max-width 950px)
+  .top
+    margin-bottom 30px !important
+  .go-back-btn
+    top 5px !important
+    transform none !important
+  .timer-wrap
+    position relative !important
+    top 0 !important
+    left 0 !important
+    margin 5px auto 0 !important
+
+@media only screen and (max-width 650px)
+  .go-back-btn
+    position relative !important
+    top 0 !important
+    left 0 !important
+    transform none !important
+    display block !important
+    margin 15px auto 0 !important

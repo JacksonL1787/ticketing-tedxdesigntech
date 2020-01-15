@@ -1,33 +1,7 @@
-.top
-  width 100%
-  height fit-content
-  margin-bottom 50px
-  .go-back-btn
-    position absolute
-    top 20px
-    left 20px
-    background red
-    border none
-    color white
-    padding 7px 20px
-    cursor pointer
-    font-weight 700
-    font-size 15px
-    border-radius .3em
-    transition background .3s
-    &:hover
-      background #de0000
-  .page-title
-    color lightgrey
-    text-align center
-    font-weight 500
-    letter-spacing 1px
-    margin 16px 0
-
 .form-content
   position relative
   margin 0 auto
-  width fit-content
+  width 100%
   p.form-info
     text-align center
     max-width 400px
@@ -157,3 +131,10 @@
       right 20px
       transform translateY(-50%)
       transition right .3s, opacity .3s
+
+@media only screen and (max-width 565px)
+  .form-content
+    p.form-info
+      max-width 350px !important
+    .tickets-wrap
+      width 90%

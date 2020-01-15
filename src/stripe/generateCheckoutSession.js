@@ -1,6 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_API_KEY);
 
-module.exports = async (customer, price) => {
+module.exports = async (customer, price, orderId) => {
   const session = await stripe.checkout.sessions.create({
     customer: customer.stripe_id,
     payment_method_types: ['card'],
@@ -11,8 +11,9 @@ module.exports = async (customer, price) => {
       currency: 'usd',
       quantity: 1,
     }],
-    success_url: 'http://localhost:3000/order-failed',
-    cancel_url: 'http://localhost:3000/order-failed',
+    client_reference_id: orderId,
+    success_url: 'http://localhost:3000/order-processing',
+    cancel_url: 'http://localhost:3000/seats/checkout',
   });
   return session;
 }

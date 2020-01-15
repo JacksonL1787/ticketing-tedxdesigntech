@@ -1,0 +1,27 @@
+link(href="/css/timer.css" rel="stylesheet")
+script.
+  let orderTime = parseInt("#{orderTimestamp}")
+  let endTime = orderTime + 900000
+  const setTime = () => {
+    let now = new Date().getTime()
+    let distance = endTime - now
+    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    $('.timer-wrap .timer .minutes').text(minutes)
+    $('.timer-wrap .timer .seconds').text(seconds.toString().length == 1 ? '0'+seconds : seconds)
+    if(distance < 0) {
+      clearInterval(timer)
+      window.location.href='/'
+    }
+  }
+  $(document).ready(() => {
+    setTime()
+  })
+  let timer = setInterval(() => {
+    setTime()
+  }, 1000)
+
+.timer-wrap
+  p.timer-desc Time left
+  h1.timer <span class="minutes"></span>:<span class="seconds"></span>
+  
