@@ -1,5 +1,5 @@
-const tables = require('../tables')
-const { writer } = require('../pool')
+const tables = require("../tables");
+const { writer } = require("../pool");
 
 module.exports = async () => {
   const takenSeats = await writer.raw(
@@ -11,7 +11,8 @@ WHERE
 	"seats"."order_id" IS NOT NULL
 	OR "seats_reservations"."id" IS NOT NULL
 	AND seats_reservations.timestamp >= now() - interval '15 minutes'
-`)
+`
+  );
 
-  return takenSeats.rows
-}
+  return takenSeats.rows;
+};

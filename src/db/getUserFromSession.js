@@ -1,7 +1,7 @@
-const { reader } = require('./pool')
-const tables = require('./tables')
+const { reader } = require("./pool");
+const tables = require("./tables");
 
-module.exports = async (ss) => {
+module.exports = async ss => {
   let user;
   try {
     user = await reader
@@ -19,14 +19,25 @@ module.exports = async (ss) => {
         `${tables.orders}.order_code`,
         `${tables.orders}.status as order_status`,
         `${tables.orders}.timestamp as order_timestamp`,
-        `${tables.orders}.id as order_id`)
+        `${tables.orders}.id as order_id`
+      )
       .from(tables.orders)
-      .join(`${tables.sessions}`, `${tables.sessions}.order_id`, '=', `${tables.orders}.id`)
-      .leftJoin(`${tables.customers}`, `${tables.customers}.order_id`, '=', `${tables.orders}.id`)
+      .join(
+        `${tables.sessions}`,
+        `${tables.sessions}.order_id`,
+        "=",
+        `${tables.orders}.id`
+      )
+      .leftJoin(
+        `${tables.customers}`,
+        `${tables.customers}.order_id`,
+        "=",
+        `${tables.orders}.id`
+      )
       .where(`${tables.sessions}.session_string`, ss)
-      .whereRaw(`${tables.orders}.timestamp >= now() - interval '15 minutes'`)
-  } catch(e) {
-    throw new Error(`Database Error: ${e}`)
+      .whereRaw(`${tables.orders}.timestamp >= now() - interval '15 minutes'`);
+  } catch (e) {
+    throw new Error(`Database Error: ${e}`);
   }
   return user;
-}
+};
