@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const stripe = require("stripe")("sk_test_URlG5O3NyeAQKT4MGn2RyyA000jLXPjabW");
-const endpointSecret = "whsec_dCnKcR2B4b9djpMX8dlLY33cZx7wQyVZ";
+const { stripeApiKey, stripeWebhookSecret } = require("../../env");
+const stripe = require("stripe")(stripeApiKey);
 
 const auth = require("../auth");
 const getTakenSeats = require("../../db/seats/getTakenSeats");
@@ -209,7 +209,11 @@ router.post("/api/stripe/webhook", (req, res, next) => {
   console.log(req.rawBody);
   console.log(sig, endpointSecret);
   try {
-    event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(
+      req.rawBody,
+      sig,
+      stripeWebhookSecret
+    );
   } catch (err) {
     res.status(400).send(`Webhook Error: ${err.message}`);
     console.log(JSON.stringify(err, null, 2));
