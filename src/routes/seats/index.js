@@ -44,7 +44,7 @@ router.get("/customer/information", auth, async (req, res, next) => {
   if (res.locals.user.order_status < 1) {
     res.redirect("/seats/selection");
   }
-  const orderTimestamp = new Date(res.locals.user.order_timestamp).getTime(0);
+  const orderTimestamp = new Date(res.locals.user.order_timestamp).getTime();
   let customerData;
   if (res.locals.user.customer_id) {
     customerData = {
@@ -77,6 +77,12 @@ router.get("/seats/information", auth, async (req, res, next) => {
   });
 });
 
+router.get("/api/getPaymentStatus", auth, async (req, res, next) => {
+  console.log(res.locals.user)
+  const paymentStatus = await getPaymentStatus(res.locals.user.order_id);
+  res.sendStatus(200)
+});
+
 router.get("/order-failed", auth, async (req, res, next) => {
   if (res.locals.user.order_status < 3) {
     res.redirect("/seats/information");
@@ -96,6 +102,10 @@ router.get("/seats/checkout", auth, async (req, res, next) => {
     seatData: JSON.stringify(seatData),
     orderTimestamp: orderTimestamp
   });
+});
+
+router.get("/order-processing/" ,async (req, res, next) => {
+  res.render("order-processing");
 });
 
 router.get("/order-complete/", async (req, res, next) => {
