@@ -189,24 +189,32 @@ router.get('/api/stripe/checkoutSession', auth, async (req, res, next) => {
   res.send(session.id)
 })
 
-router.post('/api/stripe/webhook', async (req, res, next) => {
+const stripe = require('stripe')('sk_test_URlG5O3NyeAQKT4MGn2RyyA000jLXPjabW');
+const endpointSecret = 'whsec_dCnKcR2B4b9djpMX8dlLY33cZx7wQyVZ'
+
+router.post('/api/stripe/webhook', (req, res, next) => {
+  const sig = req.headers['stripe-signature'];
   let event;
+  console.log(req.rawBody)
+  console.log(sig, endpointSecret)
   try {
-    event = await req.body;
+    event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
   } catch (err) {
     res.status(400).send(`Webhook Error: ${err.message}`);
+    console.log(JSON.stringify(err, null, 2))
   }
 
-  console.log(event)
   if(event.type === "charge.succeeded") {
-    const data = {
-      seats: await getOrderSeats(res.locals.user.order_id),
-      ...res.locals.user
-    }
-    console.log('DATA', data)
-    await finishOrder(data)
-    sendOrderCompleteEmail(data)
-    res.cookie('session_string', undefined)
+    console.log(event)
+    // const data = {
+    //   seats: await getOrderSeats(res.locals.user.order_id),
+    //   ...res.locals.user
+    // }
+    // console.log('DATA', data)
+    // await finishOrder(data)
+    // sendOrderCompleteEmail(data)
+    // res.cookie('session_string', undefined)
+    console.log('succeeded')
   } else if (event.type === "charge.failed") {
     console.log('fail')
   }
